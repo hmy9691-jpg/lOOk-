@@ -194,19 +194,27 @@ const EM_MAP={상의:'👕',하의:'👗',아우터:'🧥',신발:'👠',가방:
 const CATS=['전체','상의','하의','아우터','신발','가방','액세서리'];
 let curCat='전체';
 
+// Supabase에서 불러온 게시물 전역 저장
+let _myPosts=[];
+
 function getAll(){
-  const pub=JSON.parse(localStorage.getItem('look_posts')||'[]').filter(p=>p.me);
-  const prv=JSON.parse(localStorage.getItem('look_private')||'[]');
+  const pub=_myPosts.filter(p=>!p.is_private);
+  const prv=_myPosts.filter(p=>p.is_private);
   return{pub,prv};
 }
 
+function mapItem(p){
+  return{
+    brand:p.item_brand,name:p.item_name,cat:p.item_cat,
+    emoji:EM_MAP[p.item_cat]||'🛍️',price:p.item_price,
+    date:new Date(p.created_at).toLocaleDateString('ko-KR'),
+    prv:p.is_private
+  };
+}
+
 function renderHistory(){
-  const{pub,prv}=getAll();
-  document.getElementById('statTotal').textContent=pub.length+prv.length;
-  const all=[
-    ...pub.map(p=>({brand:p.item.brand,name:p.item.name,cat:p.item.cat,emoji:p.item.imgs?.[0]||'🛍️',price:p.item.price,date:p.date,prv:false})),
-    ...prv.map(p=>({brand:p.item.brand,name:p.item.name,cat:p.item.cat,emoji:p.item.emoji||EM_MAP[p.item.cat]||'🛍️',price:p.item.price,date:p.date,prv:true}))
-  ];
+  const all=_myPosts.map(mapItem);
+  document.getElementById('statTotal').textContent=all.length;
   const g=document.getElementById('historyGrid');
   if(!all.length){g.innerHTML='<div style="grid-column:span 2;text-align:center;padding:80px 24px"><div style="font-size:52px;margin-bottom:16px">🛍️</div><div style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:8px;font-family:var(--dis)">아직 구매 기록이 없어요</div><div style="font-size:14px;color:var(--mid)">쇼핑 탭에서 첫 구매를 해보세요!</div></div>';return}
   g.innerHTML=all.map(item=>`<div class="mini-card"><div class="mini-thumb ${MT_MAP[item.cat]||'mt-p'}">${item.emoji}</div><div class="mini-info"><div class="mini-brand">${item.brand}</div><div class="mini-name">${item.name}</div><div class="mini-price">${(item.price||0).toLocaleString('ko-KR')}원</div><div class="mini-date">${item.date}</div><span class="mini-badge ${item.prv?'mb-prv':'mb-pub'}">${item.prv?'🔒 비공개':'👀 공개'}</span></div></div>`).join('');
@@ -224,11 +232,7 @@ function filterWard(cat,el){
 }
 
 function renderWardrobe(){
-  const{pub,prv}=getAll();
-  const all=[
-    ...pub.map(p=>({brand:p.item.brand,cat:p.item.cat,emoji:p.item.imgs?.[0]||'🛍️',prv:false})),
-    ...prv.map(p=>({brand:p.item.brand,cat:p.item.cat,emoji:p.item.emoji||EM_MAP[p.item.cat]||'🛍️',prv:true}))
-  ];
+  const all=_myPosts.map(mapItem);
   const filtered=curCat==='전체'?all:all.filter(i=>i.cat===curCat);
   const g=document.getElementById('wardGrid');
   if(!filtered.length){g.innerHTML=`<div class="empty-state"><div class="empty-icon">${EM_MAP[curCat]||'👗'}</div><div class="empty-ttl">${curCat} 아이템이 없어요</div><div class="empty-sub">쇼핑 탭에서 구매하면<br>옷장에 자동으로 쌓여요!</div></div>`;return}
@@ -244,10 +248,11 @@ function switchTab(tab){
   if(!isH){renderCatTabs();renderWardrobe()}
 }
 
-// Supabase 세션으로 프로필 채우기
 (async function(){
   const{data:{session}}=await sb.auth.getSession();
   if(!session){location.href='login.html';return;}
+
+  // 프로필 표시
   const{data:prof}=await sb.from('profiles').select('*').eq('id',session.user.id).single();
   if(prof){
     document.getElementById('profileAv').textContent=prof.avatar||'🦋';
@@ -257,17 +262,17 @@ function switchTab(tab){
     const hdrAv=document.querySelector('.hdr-av');
     if(hdrAv)hdrAv.textContent=prof.avatar||'🦋';
   }
-  // Supabase에서 내 구매 기록 로드
-  const{data:posts}=await sb.from('posts').select('*').eq('user_id',session.user.id).order('created_at',{ascending:false});
-  if(posts){
-    // localStorage 포맷으로 변환해서 기존 render 함수 재사용
-    const pub=posts.filter(p=>!p.is_private).map(p=>({item:{brand:p.item_brand,name:p.item_name,cat:p.item_cat,imgs:[],price:p.item_price},date:new Date(p.created_at).toLocaleDateString('ko-KR'),prv:false}));
-    const prv=posts.filter(p=>p.is_private).map(p=>({item:{brand:p.item_brand,name:p.item_name,cat:p.item_cat,emoji:'🛍️',price:p.item_price},date:new Date(p.created_at).toLocaleDateString('ko-KR'),prv:true}));
-    localStorage.setItem('look_posts',JSON.stringify(pub));
-    localStorage.setItem('look_private',JSON.stringify(prv));
-  }
+
+  // 내 구매 기록 직접 로드
+  const{data:posts,error}=await sb.from('posts')
+    .select('*')
+    .eq('user_id',session.user.id)
+    .order('created_at',{ascending:false});
+
+  _myPosts=posts||[];
   renderHistory();
   renderCatTabs();
+  renderWardrobe();
 })();
 
 async function doLogout(){

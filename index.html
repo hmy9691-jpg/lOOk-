@@ -123,6 +123,7 @@ button{cursor:pointer;font-family:var(--font)}
 .p-info{flex:1;min-width:0}
 .p-name{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--dark)}
 .p-sub{font-size:10px;color:rgba(61,48,53,.55);margin-top:1px}
+.post-user-tag{font-size:12px;font-weight:700;color:var(--dark);padding:8px 14px 2px;opacity:.75}
 .follow-chip{font-size:10px;font-weight:700;color:var(--dark);background:rgba(255,255,255,.6);border:1.5px solid rgba(255,255,255,.9);border-radius:16px;padding:4px 11px;cursor:pointer;flex-shrink:0;transition:all .15s}
 .follow-chip:hover{background:rgba(255,255,255,.8)}
 .follow-chip.following{opacity:.65}
@@ -466,7 +467,7 @@ function cardHTML(p,idx){
       <div class="profile-row">
         <div class="av-wrap"><div class="p-avatar">${p.av}</div>${infStar}</div>
         <div class="p-info">
-          <div class="p-name">@${p.userName}이 또 질렀어요 👀</div>
+          <div class="p-name">@${p.userName} 님이 또 질렀어요 👀</div>
           <div class="p-sub">${p.date} · ${p.time}</div>
         </div>${followBtn}
       </div>

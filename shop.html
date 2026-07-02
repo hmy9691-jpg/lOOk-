@@ -56,8 +56,8 @@ button{cursor:pointer;font-family:var(--font)}
 .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .prod-card{background:var(--white);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:transform .2s,box-shadow .2s;border:2px solid transparent;position:relative}
 .prod-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(180,130,200,.25);border-color:var(--pink)}
-.prod-thumb{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;overflow:hidden}
-.prod-thumb::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.45) 5px,transparent 5px);background-size:20px 20px}
+.prod-thumb{aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.prod-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .pt-p{background:var(--pink)}.pt-m{background:var(--mint)}.pt-y{background:var(--yellow)}.pt-l{background:var(--lav)}
 .prod-hot{position:absolute;top:10px;left:10px;font-size:9px;font-weight:700;background:var(--pink-d);color:var(--white);border-radius:10px;padding:3px 9px;font-family:var(--dis)}
 .prod-star{position:absolute;top:10px;right:10px;font-size:18px;color:rgba(61,48,53,.18)}
@@ -75,8 +75,8 @@ button{cursor:pointer;font-family:var(--font)}
 .step-section{display:none;padding:0}
 .step-section.active{display:block}
 .modal-top{display:flex}
-.modal-img{width:260px;min-height:260px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:80px;position:relative;overflow:hidden;border-radius:24px 0 0 0}
-.modal-img::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.45) 6px,transparent 6px);background-size:22px 22px}
+.modal-img{width:260px;min-height:260px;flex-shrink:0;position:relative;overflow:hidden;border-radius:24px 0 0 0}
+.modal-img img{width:100%;height:100%;object-fit:cover;display:block}
 .modal-detail{flex:1;padding:24px 28px 20px}
 .modal-brand{font-size:11px;color:var(--mid);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
 .modal-name{font-size:22px;font-weight:900;color:var(--dark);margin-bottom:6px;font-family:var(--dis)}
@@ -233,7 +233,7 @@ hr.r-div{border:none;border-top:1.5px dashed rgba(255,184,200,.9);margin:10px 0}
     <!-- STEP 1 -->
     <div id="step1" class="step-section active">
       <div class="modal-top">
-        <div class="modal-img" id="mImg"><span id="mEmoji" style="position:relative;z-index:1">👕</span></div>
+        <div class="modal-img" id="mImg"></div>
         <div class="modal-detail">
           <div class="modal-brand" id="mBrand"></div>
           <div class="modal-name" id="mName"></div>
@@ -376,13 +376,27 @@ const PROD_SVG={
 };
 
 const PRODUCTS=[
-  {id:'p1',brand:'마뗑킴',name:'크롭 니트 가디건',price:52000,cat:'상의',emoji:'👕',bg:'pt-p',hot:true,sizes:['XS','S','M','L'],colors:['MINT GREEN','BUTTER CREAM','DUSTY PINK']},
-  {id:'p2',brand:'로맨틱 크라운',name:'플리츠 미디 스커트',price:68000,cat:'하의',emoji:'👗',bg:'pt-l',sizes:['XS','S','M'],colors:['DUSTY PINK','IVORY','LAVENDER']},
-  {id:'p3',brand:'닥터마틴',name:'체리 레드 1461',price:185000,cat:'신발',emoji:'👞',bg:'pt-y',hot:true,sizes:['230','235','240','245','250'],colors:['CHERRY RED','BLACK']},
-  {id:'p4',brand:'찰스앤키스',name:'리본 메리제인 플랫슈즈',price:89000,cat:'신발',emoji:'👠',bg:'pt-m',sizes:['225','230','235','240','245'],colors:['BLACK','SILVER','NUDE']},
-  {id:'p5',brand:'마뗑킴',name:'미니 숄더백',price:95000,cat:'가방',emoji:'👜',bg:'pt-l',sizes:['ONE SIZE'],colors:['IVORY','BLACK','BROWN']},
-  {id:'p6',brand:'에이블리',name:'레이어드 골드 네크리스',price:24000,cat:'액세서리',emoji:'📿',bg:'pt-y',sizes:['FREE'],colors:['GOLD','SILVER']},
-  {id:'p7',brand:'마뗑킴',name:'오버핏 데님 재킷',price:120000,cat:'아우터',emoji:'🧥',bg:'pt-m',hot:true,sizes:['S','M','L'],colors:['LIGHT BLUE','DARK INDIGO']},
+  {id:'p1',brand:'마뗑킴',name:'크롭 니트 가디건',price:52000,cat:'상의',bg:'pt-p',hot:true,
+   img:'images/가디건.jpg',
+   sizes:['XS','S','M','L'],colors:['MINT GREEN','BUTTER CREAM','DUSTY PINK']},
+  {id:'p2',brand:'로맨틱 크라운',name:'플리츠 미디 스커트',price:68000,cat:'하의',bg:'pt-l',
+   img:'images/스커트.jpg',
+   sizes:['XS','S','M'],colors:['DUSTY PINK','IVORY','LAVENDER']},
+  {id:'p3',brand:'닥터마틴',name:'체리 레드 1461',price:185000,cat:'신발',bg:'pt-y',hot:true,
+   img:'images/닥터마틴.jpg',
+   sizes:['230','235','240','245','250'],colors:['CHERRY RED','BLACK']},
+  {id:'p4',brand:'찰스앤키스',name:'리본 메리제인 플랫슈즈',price:89000,cat:'신발',bg:'pt-m',
+   img:'images/메리제인.jpg',
+   sizes:['225','230','235','240','245'],colors:['BLACK','SILVER','NUDE']},
+  {id:'p5',brand:'마뗑킴',name:'미니 숄더백',price:95000,cat:'가방',bg:'pt-l',
+   img:'images/백.jpg',
+   sizes:['ONE SIZE'],colors:['IVORY','BLACK','BROWN']},
+  {id:'p6',brand:'에이블리',name:'레이어드 골드 네크리스',price:24000,cat:'액세서리',bg:'pt-y',
+   img:'images/네크리스.jpg',
+   sizes:['FREE'],colors:['GOLD','SILVER']},
+  {id:'p7',brand:'마뗑킴',name:'오버핏 데님 재킷',price:120000,cat:'아우터',bg:'pt-m',hot:true,
+   img:'images/데님자캣.jpg',
+   sizes:['S','M','L'],colors:['LIGHT BLUE','DARK INDIGO']},
 ];
 const BG_COLOR={'pt-p':'var(--pink)','pt-l':'var(--lav)','pt-y':'var(--yellow)','pt-m':'var(--mint)'};
 let selProd=null,selSize=null,selColor=null,selSticker='🎀',isPrivate=false,curCat='전체';
@@ -399,7 +413,7 @@ function renderProds(){
   document.getElementById('prodGrid').innerHTML=filtered.map(p=>`
     <div class="prod-card" onclick="openProd('${p.id}')">
       ${p.hot?'<div class="prod-hot">🔥 인기</div>':''}
-      <div class="prod-thumb ${p.bg}" style="padding:10px">${PROD_SVG[p.cat]||p.emoji}<span class="prod-star">✦</span></div>
+      <div class="prod-thumb"><img src="${p.img}" alt="${p.name}" loading="lazy"><span class="prod-star" style="position:absolute;top:10px;right:10px;font-size:18px;color:rgba(255,255,255,.7)">✦</span></div>
       <div class="prod-info">
         <div class="prod-brand">${p.brand}</div>
         <div class="prod-name">${p.name}</div>
@@ -413,7 +427,7 @@ function openProd(id){
   if(!selProd)return;
   selSize=null;selColor=null;selSticker='🎀';isPrivate=false;
   document.getElementById('mImg').style.background=BG_COLOR[selProd.bg]||'var(--pink)';
-  document.getElementById('mEmoji').innerHTML=`<div style="width:100px;height:100px">${PROD_SVG[selProd.cat]||selProd.emoji}</div>`;
+  document.getElementById('mImg').innerHTML=`<img src="${selProd.img}" alt="${selProd.name}" style="width:100%;height:100%;object-fit:cover">`;
   document.getElementById('mBrand').textContent=selProd.brand;
   document.getElementById('mName').textContent=selProd.name;
   document.getElementById('mPrice').textContent=selProd.price.toLocaleString('ko-KR')+'원';

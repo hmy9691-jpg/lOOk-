@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>알림 — lOOk!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#FFB8C8;--pink-d:#CC3366;
+  --mint:#B8EFE4;--mint-d:#1A8070;
+  --yellow:#FFF0B0;--yellow-d:#C89000;
+  --lav:#C8C8FF;--lav-d:#5050CC;
+  --cream:#FFFEFC;--bg:#FFF9F5;
+  --white:#FFFFFF;--dark:#3D3035;--mid:#9A8088;--light:#F5F0F3;
+  --font:'Noto Sans KR',-apple-system,sans-serif;
+  --mono:'DM Mono','Courier New',monospace;
+  --dis:'Nunito',var(--font);
+  --shadow:0 3px 20px rgba(180,130,200,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);color:var(--dark);min-height:100vh;-webkit-font-smoothing:antialiased;background-color:var(--bg);background-image:repeating-linear-gradient(45deg,rgba(255,184,200,.2) 0 1px,transparent 1px 16px),repeating-linear-gradient(-45deg,rgba(184,239,228,.2) 0 1px,transparent 1px 16px),radial-gradient(circle,rgba(200,200,255,.18) 3px,transparent 3px);background-size:22px 22px,22px 22px,28px 28px;background-position:0 0,0 0,14px 14px}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:var(--font)}
+.rainbow-strip{height:5px;background:linear-gradient(to right,var(--pink) 25%,var(--yellow) 25% 50%,var(--lav) 50% 75%,var(--mint) 75%);position:sticky;top:0;z-index:200}
+.app-header{position:sticky;top:5px;z-index:199;height:62px;background:var(--white);border-bottom:2.5px solid var(--pink);display:flex;align-items:center;gap:20px;padding:0 28px}
+.logo{display:flex;align-items:center;gap:3px;flex-shrink:0}
+.lp{height:32px;min-width:30px;padding:0 7px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--dis);font-size:18px;font-weight:900;color:var(--dark)}
+.lp-l{background:var(--pink);border-radius:10px 4px 4px 10px}.lp-o1{background:var(--mint)}.lp-o2{background:var(--yellow)}.lp-k{background:var(--lav);border-radius:4px 10px 10px 4px}.lp-x{background:var(--pink);min-width:22px;border-radius:8px;font-size:16px}
+.main-nav{flex:1;display:flex;justify-content:center;gap:6px}
+.nav-link{padding:8px 22px;border-radius:22px;font-weight:700;font-size:14px;color:var(--mid);transition:all .15s;font-family:var(--dis);display:flex;align-items:center;gap:6px}
+.nav-link:hover{background:var(--light);color:var(--dark)}
+.nav-link.active{background:var(--pink);color:var(--dark)}
+.nav-link.shop-link{background:linear-gradient(135deg,var(--pink-d),var(--lav-d));color:var(--white)}
+.hdr-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.hdr-av{width:36px;height:36px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;font-size:18px;border:none}
+/* PAGE */
+.page-body{max-width:900px;margin:0 auto;padding:28px 24px 60px}
+.page-ttl-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.page-ttl{font-size:24px;font-weight:900;font-family:var(--dis);color:var(--dark)}
+.all-read-btn{font-size:13px;font-weight:700;color:var(--mid);background:var(--light);border:none;border-radius:12px;padding:8px 16px;cursor:pointer;transition:all .15s}
+.all-read-btn:hover{background:var(--pink);color:var(--dark)}
+/* FILTER TABS */
+.filter-tabs{display:flex;gap:8px;margin-bottom:20px}
+.f-tab{font-size:13px;font-weight:700;padding:8px 20px;border-radius:22px;border:2px solid var(--pink);background:var(--white);color:var(--mid);cursor:pointer;font-family:var(--dis);transition:all .15s}
+.f-tab:hover{background:var(--light);color:var(--dark)}
+.f-tab.active{background:var(--pink-d);color:var(--white);border-color:var(--pink-d)}
+/* NOTIF LIST */
+.notif-group{margin-bottom:28px}
+.group-label{font-size:12px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-family:var(--mono)}
+.notif-card{background:var(--white);border-radius:16px;border:2px solid transparent;display:flex;align-items:center;gap:14px;padding:16px 18px;margin-bottom:8px;cursor:pointer;transition:all .2s;box-shadow:var(--shadow)}
+.notif-card:hover{border-color:var(--pink);transform:translateX(3px)}
+.notif-card.unread{border-left:4px solid var(--pink-d);background:linear-gradient(to right,rgba(255,184,200,.08),var(--white))}
+.notif-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;position:relative}
+.ni-heart{background:rgba(255,184,200,.35)}
+.ni-comment{background:rgba(200,200,255,.35)}
+.ni-follow{background:rgba(184,239,228,.35)}
+.ni-purchase{background:rgba(255,240,176,.35)}
+.ni-badge{position:absolute;bottom:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:var(--white);border:2px solid var(--white);display:flex;align-items:center;justify-content:center}
+.notif-body{flex:1;min-width:0}
+.notif-text{font-size:14px;color:var(--dark);line-height:1.5}
+.notif-text strong{font-weight:700;color:var(--pink-d)}
+.notif-time{font-size:11px;color:var(--mid);margin-top:3px;font-family:var(--mono)}
+.notif-thumb{width:48px;height:48px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;border:2px solid var(--pink)}
+.notif-thumb::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.4) 3px,transparent 3px);background-size:12px 12px}
+.notif-av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:2px solid var(--pink)}
+.unread-dot{width:8px;height:8px;border-radius:50%;background:var(--pink-d);flex-shrink:0}
+/* EMPTY */
+.notif-empty{text-align:center;padding:80px 24px;color:var(--mid)}
+.empty-icon{font-size:48px;margin-bottom:14px}
+.empty-ttl{font-size:17px;font-weight:700;color:var(--dark);margin-bottom:6px;font-family:var(--dis)}
+.empty-sub{font-size:13px}
+</style>
+</head>
+<body>
+<div class="rainbow-strip"></div>
+<header class="app-header">
+  <a href="index.html" class="logo">
+    <span class="lp lp-l">l</span><span class="lp lp-o1">O</span><span class="lp lp-o2">O</span><span class="lp lp-k">k</span><span class="lp lp-x">!</span>
+  </a>
+  <nav class="main-nav">
+    <a href="index.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>홈</a>
+    <a href="explore.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>탐색</a>
+    <a href="shop.html" class="nav-link shop-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>쇼핑하기</a>
+    <a href="notifications.html" class="nav-link active"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>알림</a>
+    <a href="profile.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>마이</a>
+  </nav>
+  <div class="hdr-right">
+    <button class="hdr-av" onclick="location.href='profile.html'">🦋</button>
+  </div>
+</header>
+
+<div class="page-body">
+  <div class="page-ttl-row">
+    <div class="page-ttl">🔔 알림</div>
+    <button class="all-read-btn" onclick="markAllRead()">모두 읽음 처리</button>
+  </div>
+  <div class="filter-tabs">
+    <button class="f-tab active" onclick="filterNotif('전체',this)">전체</button>
+    <button class="f-tab" onclick="filterNotif('좋아요',this)">좋아요</button>
+    <button class="f-tab" onclick="filterNotif('댓글',this)">댓글</button>
+    <button class="f-tab" onclick="filterNotif('팔로우',this)">팔로우</button>
+    <button class="f-tab" onclick="filterNotif('구매',this)">구매 알림</button>
+  </div>
+  <div id="notifList"></div>
+</div>
+
+<script>
+const NOTIFS=[
+  {id:1,type:'좋아요',unread:true,av:'🐰',avBg:'var(--lav)',user:'민지',text:'님이 내 게시물을 좋아해요',sub:'크롭 니트 가디건 구매 게시물',thumbBg:'var(--pink)',time:'방금 전',icon:'heart'},
+  {id:2,type:'댓글',unread:true,av:'✨',avBg:'var(--yellow)',user:'지우',text:'님이 댓글을 달았어요',sub:'"오 이거 나도 봤는데 색 진짜 예쁘죠?"',thumbBg:'var(--mint)',time:'3분 전',icon:'comment'},
+  {id:3,type:'팔로우',unread:true,av:'🧸',avBg:'var(--lav)',user:'지수',text:'님이 팔로우하기 시작했어요',sub:'팔로워 2,410명',thumbBg:null,time:'12분 전',icon:'follow'},
+  {id:4,type:'좋아요',unread:true,av:'🌸',avBg:'var(--mint)',user:'수아',text:'님이 내 게시물을 좋아해요',sub:'리본 메리제인 플랫슈즈 구매 게시물',thumbBg:'var(--yellow)',time:'28분 전',icon:'heart'},
+  {id:5,type:'구매',unread:true,av:null,avBg:null,user:null,text:'내 구매 게시물이 인기 게시물에 선정되었어요 🔥',sub:'미니 숄더백 게시물 · 좋아요 50개 돌파!',thumbBg:'var(--lav)',time:'1시간 전',icon:'purchase'},
+  {id:6,type:'댓글',unread:false,av:'🍓',avBg:'var(--pink)',user:'예린',text:'님이 댓글을 달았어요',sub:'"나도 이거 사야지ㅠㅠ 어디서 살 수 있어요?"',thumbBg:'var(--mint)',time:'2시간 전',icon:'comment'},
+  {id:7,type:'팔로우',unread:false,av:'🌸',avBg:'var(--mint)',user:'수아',text:'님이 팔로우하기 시작했어요',sub:'팔로워 890명',thumbBg:null,time:'어제',icon:'follow'},
+  {id:8,type:'좋아요',unread:false,av:'🍓',avBg:'var(--pink)',user:'예린',text:'님이 내 게시물을 좋아해요',sub:'레이어드 골드 네크리스 구매 게시물',thumbBg:'var(--yellow)',time:'어제',icon:'heart'},
+  {id:9,type:'구매',unread:false,av:null,avBg:null,user:null,text:'팔로잉 중인 지우님이 새 구매를 공유했어요',sub:'체리 레드 1461 · 185,000원',thumbBg:'var(--yellow)',time:'어제',icon:'purchase'},
+  {id:10,type:'댓글',unread:false,av:'🐰',avBg:'var(--lav)',user:'민지',text:'님이 댓글을 달았어요',sub:'"역시 못 참지ㅋㅋ 나도 이거 살뻔했어"',thumbBg:'var(--lav)',time:'3일 전',icon:'comment'},
+];
+
+const ICON_SVG={
+  heart:`<svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(204,51,102,.8)" stroke="rgba(204,51,102,.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
+  comment:`<svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(80,80,204,.8)" stroke="rgba(80,80,204,.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
+  follow:`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(26,128,112,.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>`,
+  purchase:`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(200,144,0,.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>`,
+};
+const ICON_BG={heart:'ni-heart',comment:'ni-comment',follow:'ni-follow',purchase:'ni-purchase'};
+const PROD_SVG_MINI={
+  'var(--pink)':`<svg width="32" height="32" viewBox="0 0 56 56" fill="none" stroke="rgba(204,51,102,.7)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="position:relative;z-index:1"><path d="M20 10L9 18l8 5V46h22V23l8-5L27 10l-4 2a3 3 0 01-3 0z" fill="rgba(255,255,255,.5)"/></svg>`,
+  'var(--mint)':`<svg width="32" height="32" viewBox="0 0 56 56" fill="none" stroke="rgba(26,128,112,.7)" stroke-width="2.5" stroke-linecap="round" style="position:relative;z-index:1"><path d="M22 9L8 18l8 6V47h24V24l8-6L26 9v3l-6 3a2 2 0 01-4 0l-6-3V9z" fill="rgba(255,255,255,.45)"/></svg>`,
+  'var(--yellow)':`<svg width="32" height="32" viewBox="0 0 56 56" fill="none" stroke="rgba(200,144,0,.75)" stroke-width="2.5" stroke-linecap="round" style="position:relative;z-index:1"><path d="M8 37c0-10 5-20 14-20l14 4 10 3v7H8z" fill="rgba(255,255,255,.5)"/><rect x="7" y="37" width="42" height="9" rx="4" fill="rgba(255,255,255,.5)"/></svg>`,
+  'var(--lav)':`<svg width="32" height="32" viewBox="0 0 56 56" fill="none" stroke="rgba(80,80,204,.65)" stroke-width="2.5" stroke-linecap="round" style="position:relative;z-index:1"><rect x="9" y="20" width="38" height="30" rx="5" fill="rgba(255,255,255,.5)"/><path d="M20 20v-5a8 8 0 0116 0v5"/></svg>`,
+};
+
+let curFilter='전체';
+let notifs=[...NOTIFS];
+
+function renderNotifs(){
+  const filtered=curFilter==='전체'?notifs:notifs.filter(n=>n.type===curFilter);
+  const today=filtered.filter(n=>['방금 전','3분 전','12분 전','28분 전','1시간 전','2시간 전'].some(t=>n.time.includes(t)));
+  const yesterday=filtered.filter(n=>n.time==='어제');
+  const older=filtered.filter(n=>n.time==='3일 전');
+
+  let html='';
+  if(today.length){html+=`<div class="notif-group"><div class="group-label">오늘</div>${today.map(notifCard).join('')}</div>`}
+  if(yesterday.length){html+=`<div class="notif-group"><div class="group-label">어제</div>${yesterday.map(notifCard).join('')}</div>`}
+  if(older.length){html+=`<div class="notif-group"><div class="group-label">이전</div>${older.map(notifCard).join('')}</div>`}
+  if(!filtered.length){html=`<div class="notif-empty"><div class="empty-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--mid)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><div class="empty-ttl">알림이 없어요</div><div class="empty-sub">활동이 생기면 여기서 알려드릴게요!</div></div>`}
+  document.getElementById('notifList').innerHTML=html;
+}
+
+function notifCard(n){
+  const thumb=n.thumbBg?`<div class="notif-thumb" style="background:${n.thumbBg}">${PROD_SVG_MINI[n.thumbBg]||''}</div>`:'';
+  const av=n.av?`<div class="notif-av" style="background:${n.avBg}">${n.av}</div>`:`<div class="notif-icon ${ICON_BG[n.icon]}">${ICON_SVG[n.icon]}</div>`;
+  const userStr=n.user?`<strong>${n.user}</strong>`:''
+  return`<div class="notif-card${n.unread?' unread':''}" onclick="readNotif(${n.id})">
+    <div class="notif-icon ${ICON_BG[n.icon]}" style="position:relative">
+      ${n.av?`<div style="width:44px;height:44px;border-radius:50%;background:${n.avBg};display:flex;align-items:center;justify-content:center;font-size:22px">${n.av}</div>`:`${ICON_SVG[n.icon]}`}
+    </div>
+    <div class="notif-body">
+      <div class="notif-text">${userStr}${n.text}</div>
+      <div class="notif-time">${n.sub} · ${n.time}</div>
+    </div>
+    ${thumb}
+    ${n.unread?'<div class="unread-dot"></div>':''}
+  </div>`;
+}
+
+function readNotif(id){
+  const n=notifs.find(x=>x.id===id);
+  if(n)n.unread=false;
+  renderNotifs();
+}
+function markAllRead(){
+  notifs.forEach(n=>n.unread=false);
+  renderNotifs();
+}
+function filterNotif(type,btn){
+  curFilter=type;
+  document.querySelectorAll('.f-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderNotifs();
+}
+renderNotifs();
+</script>
+</body>
+</html>

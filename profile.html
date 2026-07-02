@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마이페이지 — lOOk!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#FFB8C8;--pink-d:#CC3366;
+  --mint:#B8EFE4;--mint-d:#1A8070;
+  --yellow:#FFF0B0;--yellow-d:#C89000;
+  --lav:#C8C8FF;--lav-d:#5050CC;
+  --cream:#FFFEFC;--bg:#FFF9F5;
+  --white:#FFFFFF;--dark:#3D3035;--mid:#9A8088;--light:#F5F0F3;
+  --font:'Noto Sans KR',-apple-system,sans-serif;
+  --mono:'DM Mono','Courier New',monospace;
+  --dis:'Nunito',var(--font);
+  --shadow:0 3px 20px rgba(180,130,200,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);color:var(--dark);min-height:100vh;-webkit-font-smoothing:antialiased;background-color:var(--bg);background-image:repeating-linear-gradient(45deg,rgba(255,184,200,.2) 0 1px,transparent 1px 16px),repeating-linear-gradient(-45deg,rgba(184,239,228,.2) 0 1px,transparent 1px 16px),radial-gradient(circle,rgba(200,200,255,.18) 3px,transparent 3px);background-size:22px 22px,22px 22px,28px 28px;background-position:0 0,0 0,14px 14px}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:var(--font)}
+.rainbow-strip{height:5px;background:linear-gradient(to right,var(--pink) 25%,var(--yellow) 25% 50%,var(--lav) 50% 75%,var(--mint) 75%);position:sticky;top:0;z-index:200}
+.app-header{position:sticky;top:5px;z-index:199;height:62px;background:var(--white);border-bottom:2.5px solid var(--pink);display:flex;align-items:center;gap:20px;padding:0 28px}
+.logo{display:flex;align-items:center;gap:3px;flex-shrink:0}
+.lp{height:32px;min-width:30px;padding:0 7px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--dis);font-size:18px;font-weight:900;color:var(--dark)}
+.lp-l{background:var(--pink);border-radius:10px 4px 4px 10px}
+.lp-o1{background:var(--mint)}.lp-o2{background:var(--yellow)}
+.lp-k{background:var(--lav);border-radius:4px 10px 10px 4px}
+.lp-x{background:var(--pink);min-width:22px;border-radius:8px;font-size:16px}
+.main-nav{flex:1;display:flex;justify-content:center;gap:6px}
+.nav-link{padding:8px 22px;border-radius:22px;font-weight:700;font-size:14px;color:var(--mid);transition:all .15s;font-family:var(--dis);display:flex;align-items:center;gap:6px}
+.nav-link:hover{background:var(--light);color:var(--dark)}
+.nav-link.active{background:var(--pink);color:var(--dark)}
+.nav-link.shop-link{background:linear-gradient(135deg,var(--pink-d),var(--lav-d));color:var(--white)}
+.hdr-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.hdr-av{width:36px;height:36px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;font-size:18px;border:none}
+/* PAGE */
+.page-body{max-width:1280px;margin:0 auto;padding:24px 24px 48px;display:grid;grid-template-columns:280px 1fr;gap:22px;align-items:start}
+/* PROFILE SIDEBAR */
+.profile-sidebar{display:flex;flex-direction:column;gap:16px;position:sticky;top:80px}
+.profile-card{background:var(--white);border-radius:22px;box-shadow:var(--shadow);border:2.5px solid var(--pink)}
+.profile-banner{height:80px;display:flex;overflow:hidden;position:relative;border-radius:20px 20px 0 0}
+.pb{flex:1;display:flex;align-items:center;justify-content:center;font-size:16px;font-family:var(--dis);font-weight:700;color:rgba(61,48,53,.3)}
+.pb1{background:var(--pink)}.pb2{background:var(--mint)}.pb3{background:var(--yellow)}.pb4{background:var(--lav)}
+.banner-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.35) 4px,transparent 4px);background-size:18px 18px;pointer-events:none}
+.profile-body{padding:0 22px 22px}
+.avatar{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--lav));border:4px solid var(--white);display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 4px 16px rgba(200,150,200,.25);margin-top:-35px;margin-bottom:10px;position:relative;z-index:2}
+.profile-name{font-size:20px;font-weight:900;color:var(--dark);font-family:var(--dis)}
+.profile-handle{font-size:13px;color:var(--mid);margin-top:2px;margin-bottom:10px}
+.profile-bio{font-size:13px;color:var(--dark);line-height:1.6;margin-bottom:16px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);background:var(--bg);border-radius:14px;overflow:hidden;border:2px solid var(--pink);margin-bottom:14px}
+.stat-item{text-align:center;padding:12px 0}
+.stat-item+.stat-item{border-left:2px solid var(--pink)}
+.stat-num{font-size:18px;font-weight:900;color:var(--dark);font-family:var(--dis)}
+.stat-label{font-size:10px;color:var(--mid);margin-top:2px;font-weight:600}
+.edit-btn{width:100%;padding:10px;border-radius:14px;background:var(--pink);border:none;font-size:14px;font-weight:700;font-family:var(--dis);color:var(--dark);cursor:pointer;transition:opacity .15s}
+.edit-btn:hover{opacity:.85}
+.sidebar-card{background:var(--white);border-radius:18px;padding:18px;box-shadow:var(--shadow);border:2px solid var(--pink);position:relative;overflow:hidden}
+.sidebar-card::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,184,200,.1) 4px,transparent 4px);background-size:18px 18px}
+.sidebar-ttl{font-size:13px;font-weight:900;color:var(--dark);margin-bottom:12px;font-family:var(--dis);position:relative}
+.fol-item{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1.5px dashed var(--pink);position:relative}
+.fol-item:last-child{border-bottom:none}
+.fol-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.fol-name{font-size:12px;font-weight:700;color:var(--dark);font-family:var(--dis)}
+.fol-sub{font-size:10px;color:var(--mid)}
+/* CONTENT */
+.content-area{display:flex;flex-direction:column;gap:16px}
+.tab-bar{background:var(--white);border-radius:18px;display:flex;box-shadow:var(--shadow);border:2.5px solid var(--pink);overflow:hidden}
+.tab-btn{flex:1;height:52px;background:none;border:none;cursor:pointer;font-size:15px;font-weight:700;color:var(--mid);font-family:var(--dis);transition:all .15s}
+.tab-btn.active{background:var(--pink);color:var(--dark)}
+.tab-btn+.tab-btn{border-left:2px solid var(--pink)}
+/* HISTORY */
+.history-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mini-card{background:var(--white);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;display:flex;border:2px solid var(--pink);position:relative;transition:transform .2s}
+.mini-card:hover{transform:translateY(-2px)}
+.mini-card::after{content:'✦';position:absolute;right:12px;top:10px;font-size:14px;color:var(--pink);opacity:.4}
+.mini-thumb{width:90px;min-height:90px;display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0;position:relative;overflow:hidden}
+.mini-thumb::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.4) 4px,transparent 4px);background-size:16px 16px}
+.mt-p{background:var(--pink)}.mt-m{background:var(--mint)}.mt-y{background:var(--yellow)}.mt-l{background:var(--lav)}
+.mini-info{flex:1;padding:14px 32px 14px 14px;display:flex;flex-direction:column;justify-content:center}
+.mini-brand{font-size:10px;color:var(--mid);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.mini-name{font-size:14px;font-weight:800;color:var(--dark);margin:3px 0;font-family:var(--dis)}
+.mini-price{font-family:var(--mono);font-size:14px;color:var(--dark)}
+.mini-date{font-size:11px;color:var(--mid);margin-top:4px}
+.mini-badge{display:inline-block;font-size:10px;padding:3px 10px;border-radius:10px;margin-top:5px;font-weight:700;font-family:var(--dis)}
+.mb-pub{background:var(--mint);color:var(--mint-d)}
+.mb-prv{background:var(--lav);color:var(--lav-d)}
+/* WARDROBE */
+.ward-top{display:flex;gap:8px;flex-wrap:wrap}
+.cat-tab{font-size:13px;font-weight:700;padding:8px 20px;border-radius:22px;border:2px solid var(--pink);background:var(--white);color:var(--mid);cursor:pointer;font-family:var(--dis);transition:all .15s}
+.cat-tab:hover{background:var(--light);color:var(--dark)}
+.cat-tab.active{background:var(--pink-d);color:var(--white);border-color:var(--pink-d)}
+.ward-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:16px}
+.ward-item{aspect-ratio:1;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:transform .15s;position:relative;overflow:hidden;box-shadow:var(--shadow);border:2px solid rgba(255,255,255,.8)}
+.ward-item::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.4) 4px,transparent 4px);background-size:18px 18px}
+.ward-item:hover{transform:scale(.96)}
+.wi-p{background:var(--pink)}.wi-m{background:var(--mint)}.wi-y{background:var(--yellow)}.wi-l{background:var(--lav)}
+.ward-emoji{font-size:32px;position:relative;z-index:1}
+.ward-brand{font-size:9px;font-weight:700;color:rgba(61,48,53,.7);text-transform:uppercase;text-align:center;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;position:relative;z-index:1;font-family:var(--dis)}
+.ward-prv{position:absolute;top:7px;right:7px;font-size:12px;z-index:2}
+.empty-state{text-align:center;padding:60px 24px;grid-column:span 5}
+.empty-icon{font-size:48px;margin-bottom:14px}
+.empty-ttl{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:6px;font-family:var(--dis)}
+.empty-sub{font-size:13px;color:var(--mid)}
+</style>
+</head>
+<body>
+<div class="rainbow-strip"></div>
+<header class="app-header">
+  <a href="index.html" class="logo">
+    <span class="lp lp-l">l</span><span class="lp lp-o1">O</span><span class="lp lp-o2">O</span><span class="lp lp-k">k</span><span class="lp lp-x">!</span>
+  </a>
+  <nav class="main-nav">
+    <a href="index.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>홈</a>
+    <a href="explore.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>탐색</a>
+    <a href="shop.html" class="nav-link shop-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>쇼핑하기</a>
+    <a href="notifications.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>알림</a>
+    <a href="profile.html" class="nav-link active"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>마이</a>
+  </nav>
+  <div class="hdr-right">
+    <button class="hdr-av">🦋</button>
+  </div>
+</header>
+
+<div class="page-body">
+  <aside class="profile-sidebar">
+    <div class="profile-card">
+      <div class="profile-banner">
+        <div class="pb pb1">✦</div>
+        <div class="pb pb2">👀</div>
+        <div class="pb pb3">lOOk!</div>
+        <div class="pb pb4">★</div>
+        <div class="banner-dots"></div>
+      </div>
+      <div class="profile-body">
+        <div class="avatar" id="profileAv">🦋</div>
+        <div class="profile-name" id="profileName">나 ✦</div>
+        <div class="profile-handle" id="profileHandle">@me_on_look</div>
+        <div class="profile-bio" id="profileBio">옷 좋아하는 사람 🎀<br>내 진짜 구매기록 모음</div>
+        <div class="stats-grid">
+          <div class="stat-item"><div class="stat-num" id="statTotal">0</div><div class="stat-label">구매</div></div>
+          <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">팔로잉</div></div>
+          <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">팔로워</div></div>
+        </div>
+        <button class="edit-btn" onclick="alert('프로필 편집 준비중 ✦')">프로필 편집 ✦</button>
+        <button class="edit-btn" style="margin-top:8px;background:var(--light);color:var(--mid)" onclick="doLogout()">로그아웃</button>
+      </div>
+    </div>
+    <div class="sidebar-card">
+      <div class="sidebar-ttl">👀 팔로잉</div>
+      <div class="fol-item"><div class="fol-av" style="background:var(--lav)">🐰</div><div><div class="fol-name">민지</div><div class="fol-sub">@minji_style</div></div></div>
+      <div class="fol-item"><div class="fol-av" style="background:var(--yellow)">✨</div><div><div class="fol-name">지우 ★</div><div class="fol-sub">@stylebyj</div></div></div>
+      <div class="fol-item"><div class="fol-av" style="background:var(--mint)">🌸</div><div><div class="fol-name">수아</div><div class="fol-sub">@sua_daily</div></div></div>
+      <div class="fol-item"><div class="fol-av" style="background:var(--pink)">🍓</div><div><div class="fol-name">예린</div><div class="fol-sub">@yerin_look</div></div></div>
+    </div>
+  </aside>
+
+  <div class="content-area">
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tabH" onclick="switchTab('history')">🧾 구매기록</button>
+      <button class="tab-btn" id="tabW" onclick="switchTab('wardrobe')">👗 내 옷장</button>
+    </div>
+    <div id="historySection">
+      <div class="history-grid" id="historyGrid"></div>
+    </div>
+    <div id="wardrobeSection" style="display:none">
+      <div class="ward-top" id="catRow"></div>
+      <div class="ward-grid" id="wardGrid"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb=supabase.createClient(
+  'https://pgfysjkftzdkebvnmcwr.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnZnlzamtmdHpka2Vidm5tY3dyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ1OTIsImV4cCI6MjA5ODU1MDU5Mn0.5vy6TSPcQzOBh9fQDdYv4fvRel89zH-ynDCNFJu05YI'
+);
+const WARD_SVG={
+  '상의':`<svg viewBox="0 0 56 56" fill="none" stroke="rgba(204,51,102,.7)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10L9 18l8 5V46h22V23l8-5L27 10l-4 2a3 3 0 01-3 0z" fill="rgba(255,255,255,.5)"/><path d="M20 10.5Q28 16 36 10.5"/></svg>`,
+  '하의':`<svg viewBox="0 0 56 56" fill="none" stroke="rgba(80,80,204,.65)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="10" width="28" height="6" rx="2" fill="rgba(255,255,255,.5)"/><path d="M15 16L11 46h10l7-18 7 18h10L40 16" fill="rgba(255,255,255,.4)"/></svg>`,
+  '아우터':`<svg viewBox="0 0 56 56" fill="none" stroke="rgba(26,128,112,.7)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9L8 18l8 6V47h24V24l8-6L26 9v3l-6 3a2 2 0 01-4 0l-6-3V9z" fill="rgba(255,255,255,.45)"/><line x1="26" y1="14" x2="30" y2="14"/><line x1="28" y1="17" x2="28" y2="43"/></svg>`,
+  '신발':`<svg viewBox="0 0 56 56" fill="none" stroke="rgba(200,144,0,.75)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 37c0-10 5-20 14-20l14 4 10 3v7H8z" fill="rgba(255,255,255,.5)"/><rect x="7" y="37" width="42" height="9" rx="4" fill="rgba(255,255,255,.5)"/><path d="M22 17l4-5"/></svg>`,
+  '가방':`<svg viewBox="0 0 56 56" fill="none" stroke="rgba(80,80,204,.65)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="20" width="38" height="30" rx="5" fill="rgba(255,255,255,.5)"/><path d="M20 20v-5a8 8 0 0116 0v5"/><line x1="9" y1="30" x2="47" y2="30"/><rect x="23" y="27" width="10" height="6" rx="2" fill="rgba(255,255,255,.7)"/></svg>`,
+  '액세서리':`<svg viewBox="0 0 56 56" fill="none" stroke="rgba(200,144,0,.75)" stroke-width="2.5" stroke-linecap="round"><ellipse cx="28" cy="38" rx="18" ry="5" fill="rgba(255,255,255,.4)"/><ellipse cx="28" cy="33" rx="14" ry="4" fill="rgba(255,255,255,.4)"/><ellipse cx="28" cy="28" rx="10" ry="3" fill="rgba(255,255,255,.4)"/><line x1="28" y1="25" x2="28" y2="12"/><circle cx="28" cy="10" r="3" fill="rgba(200,144,0,.6)" stroke="none"/></svg>`,
+};
+const BG_MAP={상의:'wi-p',하의:'wi-l',아우터:'wi-m',신발:'wi-y',가방:'wi-p',액세서리:'wi-l'};
+const MT_MAP={상의:'mt-p',하의:'mt-l',아우터:'mt-m',신발:'mt-y',가방:'mt-p',액세서리:'mt-l'};
+const EM_MAP={상의:'👕',하의:'👗',아우터:'🧥',신발:'👠',가방:'👜',액세서리:'💍'};
+const CATS=['전체','상의','하의','아우터','신발','가방','액세서리'];
+let curCat='전체';
+
+function getAll(){
+  const pub=JSON.parse(localStorage.getItem('look_posts')||'[]').filter(p=>p.me);
+  const prv=JSON.parse(localStorage.getItem('look_private')||'[]');
+  return{pub,prv};
+}
+
+function renderHistory(){
+  const{pub,prv}=getAll();
+  document.getElementById('statTotal').textContent=pub.length+prv.length;
+  const all=[
+    ...pub.map(p=>({brand:p.item.brand,name:p.item.name,cat:p.item.cat,emoji:p.item.imgs?.[0]||'🛍️',price:p.item.price,date:p.date,prv:false})),
+    ...prv.map(p=>({brand:p.item.brand,name:p.item.name,cat:p.item.cat,emoji:p.item.emoji||EM_MAP[p.item.cat]||'🛍️',price:p.item.price,date:p.date,prv:true}))
+  ];
+  const g=document.getElementById('historyGrid');
+  if(!all.length){g.innerHTML='<div style="grid-column:span 2;text-align:center;padding:80px 24px"><div style="font-size:52px;margin-bottom:16px">🛍️</div><div style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:8px;font-family:var(--dis)">아직 구매 기록이 없어요</div><div style="font-size:14px;color:var(--mid)">쇼핑 탭에서 첫 구매를 해보세요!</div></div>';return}
+  g.innerHTML=all.map(item=>`<div class="mini-card"><div class="mini-thumb ${MT_MAP[item.cat]||'mt-p'}">${item.emoji}</div><div class="mini-info"><div class="mini-brand">${item.brand}</div><div class="mini-name">${item.name}</div><div class="mini-price">${(item.price||0).toLocaleString('ko-KR')}원</div><div class="mini-date">${item.date}</div><span class="mini-badge ${item.prv?'mb-prv':'mb-pub'}">${item.prv?'🔒 비공개':'👀 공개'}</span></div></div>`).join('');
+}
+
+function renderCatTabs(){
+  document.getElementById('catRow').innerHTML=CATS.map(c=>`<button class="cat-tab${c===curCat?' active':''}" onclick="filterWard('${c}',this)">${c}</button>`).join('');
+}
+
+function filterWard(cat,el){
+  curCat=cat;
+  document.querySelectorAll('.cat-tab').forEach(x=>x.classList.remove('active'));
+  if(el)el.classList.add('active');
+  renderWardrobe();
+}
+
+function renderWardrobe(){
+  const{pub,prv}=getAll();
+  const all=[
+    ...pub.map(p=>({brand:p.item.brand,cat:p.item.cat,emoji:p.item.imgs?.[0]||'🛍️',prv:false})),
+    ...prv.map(p=>({brand:p.item.brand,cat:p.item.cat,emoji:p.item.emoji||EM_MAP[p.item.cat]||'🛍️',prv:true}))
+  ];
+  const filtered=curCat==='전체'?all:all.filter(i=>i.cat===curCat);
+  const g=document.getElementById('wardGrid');
+  if(!filtered.length){g.innerHTML=`<div class="empty-state"><div class="empty-icon">${EM_MAP[curCat]||'👗'}</div><div class="empty-ttl">${curCat} 아이템이 없어요</div><div class="empty-sub">쇼핑 탭에서 구매하면<br>옷장에 자동으로 쌓여요!</div></div>`;return}
+  g.innerHTML=filtered.map(item=>`<div class="ward-item ${BG_MAP[item.cat]||'wi-p'}"><div class="ward-emoji" style="width:44px;height:44px">${WARD_SVG[item.cat]||item.emoji}</div><div class="ward-brand">${item.brand}</div>${item.prv?'<span class="ward-prv">🔒</span>':''}</div>`).join('');
+}
+
+function switchTab(tab){
+  const isH=tab==='history';
+  document.getElementById('tabH').className='tab-btn'+(isH?' active':'');
+  document.getElementById('tabW').className='tab-btn'+(!isH?' active':'');
+  document.getElementById('historySection').style.display=isH?'block':'none';
+  document.getElementById('wardrobeSection').style.display=isH?'none':'block';
+  if(!isH){renderCatTabs();renderWardrobe()}
+}
+
+// Supabase 세션으로 프로필 채우기
+(async function(){
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session){location.href='login.html';return;}
+  const{data:prof}=await sb.from('profiles').select('*').eq('id',session.user.id).single();
+  if(prof){
+    document.getElementById('profileAv').textContent=prof.avatar||'🦋';
+    document.getElementById('profileName').textContent=(prof.name||'나')+' ✦';
+    document.getElementById('profileHandle').textContent='@'+(prof.handle||'me_on_look');
+    document.getElementById('profileBio').textContent=prof.bio||'옷 좋아하는 사람 🎀';
+    const hdrAv=document.querySelector('.hdr-av');
+    if(hdrAv)hdrAv.textContent=prof.avatar||'🦋';
+  }
+  // Supabase에서 내 구매 기록 로드
+  const{data:posts}=await sb.from('posts').select('*').eq('user_id',session.user.id).order('created_at',{ascending:false});
+  if(posts){
+    // localStorage 포맷으로 변환해서 기존 render 함수 재사용
+    const pub=posts.filter(p=>!p.is_private).map(p=>({item:{brand:p.item_brand,name:p.item_name,cat:p.item_cat,imgs:[],price:p.item_price},date:new Date(p.created_at).toLocaleDateString('ko-KR'),prv:false}));
+    const prv=posts.filter(p=>p.is_private).map(p=>({item:{brand:p.item_brand,name:p.item_name,cat:p.item_cat,emoji:'🛍️',price:p.item_price},date:new Date(p.created_at).toLocaleDateString('ko-KR'),prv:true}));
+    localStorage.setItem('look_posts',JSON.stringify(pub));
+    localStorage.setItem('look_private',JSON.stringify(prv));
+  }
+  renderHistory();
+  renderCatTabs();
+})();
+
+async function doLogout(){
+  if(!confirm('로그아웃 하시겠어요?'))return;
+  await sb.auth.signOut();
+  localStorage.removeItem('look_guest');
+  location.href='login.html';
+}
+</script>
+</body>
+</html>

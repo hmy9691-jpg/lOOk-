@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>쇼핑 — lOOk!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#FFB8C8;--pink-d:#CC3366;
+  --mint:#B8EFE4;--mint-d:#1A8070;
+  --yellow:#FFF0B0;--yellow-d:#C89000;
+  --lav:#C8C8FF;--lav-d:#5050CC;
+  --cream:#FFFEFC;--bg:#FFF9F5;
+  --white:#FFFFFF;--dark:#3D3035;--mid:#9A8088;--light:#F5F0F3;
+  --font:'Noto Sans KR',-apple-system,sans-serif;
+  --mono:'DM Mono','Courier New',monospace;
+  --dis:'Nunito',var(--font);
+  --shadow:0 3px 20px rgba(180,130,200,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);color:var(--dark);min-height:100vh;-webkit-font-smoothing:antialiased;background-color:var(--bg);background-image:repeating-linear-gradient(45deg,rgba(255,184,200,.2) 0 1px,transparent 1px 16px),repeating-linear-gradient(-45deg,rgba(184,239,228,.2) 0 1px,transparent 1px 16px),radial-gradient(circle,rgba(200,200,255,.18) 3px,transparent 3px);background-size:22px 22px,22px 22px,28px 28px;background-position:0 0,0 0,14px 14px}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:var(--font)}
+.rainbow-strip{height:5px;background:linear-gradient(to right,var(--pink) 25%,var(--yellow) 25% 50%,var(--lav) 50% 75%,var(--mint) 75%);position:sticky;top:0;z-index:200}
+.app-header{position:sticky;top:5px;z-index:199;height:62px;background:var(--white);border-bottom:2.5px solid var(--pink);display:flex;align-items:center;gap:20px;padding:0 28px}
+.logo{display:flex;align-items:center;gap:3px;flex-shrink:0}
+.lp{height:32px;min-width:30px;padding:0 7px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--dis);font-size:18px;font-weight:900;color:var(--dark)}
+.lp-l{background:var(--pink);border-radius:10px 4px 4px 10px}
+.lp-o1{background:var(--mint)}
+.lp-o2{background:var(--yellow)}
+.lp-k{background:var(--lav);border-radius:4px 10px 10px 4px}
+.lp-x{background:var(--pink);min-width:22px;border-radius:8px;font-size:16px}
+.main-nav{flex:1;display:flex;justify-content:center;gap:6px}
+.nav-link{padding:8px 22px;border-radius:22px;font-weight:700;font-size:14px;color:var(--mid);transition:all .15s;font-family:var(--dis);display:flex;align-items:center;gap:6px}
+.nav-link:hover{background:var(--light);color:var(--dark)}
+.nav-link.shop-link{background:linear-gradient(135deg,var(--pink-d),var(--lav-d));color:var(--white)}
+.hdr-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.hdr-av{width:36px;height:36px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;font-size:18px;border:none}
+.page-body{max-width:1280px;margin:0 auto;padding:24px 24px 48px;display:grid;grid-template-columns:220px 1fr;gap:22px}
+.filter-sidebar{display:flex;flex-direction:column;gap:16px}
+.filter-card{background:var(--white);border-radius:18px;padding:18px;box-shadow:var(--shadow);border:2px solid var(--pink);position:relative;overflow:hidden}
+.filter-card::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,184,200,.12) 4px,transparent 4px);background-size:18px 18px}
+.filter-ttl{font-size:13px;font-weight:900;color:var(--dark);margin-bottom:12px;font-family:var(--dis);position:relative}
+.cat-list{display:flex;flex-direction:column;gap:2px;position:relative}
+.cat-item{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:12px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:600;color:var(--mid)}
+.cat-item:hover{background:var(--light);color:var(--dark)}
+.cat-item.active{background:var(--pink);color:var(--dark)}
+.cat-count{font-size:11px;background:rgba(61,48,53,.12);border-radius:10px;padding:2px 8px}
+.brand-tag{font-size:11px;font-weight:700;border:1.5px solid var(--pink);border-radius:12px;padding:5px 12px;cursor:pointer;transition:all .15s;background:none}
+.brand-tag:hover,.brand-tag.on{background:var(--pink)}
+.sort-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sort-ttl{font-size:15px;font-weight:900;color:var(--dark);font-family:var(--dis)}
+.sort-sel{background:var(--white);border:2px solid var(--pink);border-radius:12px;padding:7px 14px;font-size:13px;font-family:var(--font);color:var(--dark);outline:none;cursor:pointer}
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.prod-card{background:var(--white);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:transform .2s,box-shadow .2s;border:2px solid transparent;position:relative}
+.prod-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(180,130,200,.25);border-color:var(--pink)}
+.prod-thumb{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;overflow:hidden}
+.prod-thumb::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.45) 5px,transparent 5px);background-size:20px 20px}
+.pt-p{background:var(--pink)}.pt-m{background:var(--mint)}.pt-y{background:var(--yellow)}.pt-l{background:var(--lav)}
+.prod-hot{position:absolute;top:10px;left:10px;font-size:9px;font-weight:700;background:var(--pink-d);color:var(--white);border-radius:10px;padding:3px 9px;font-family:var(--dis)}
+.prod-star{position:absolute;top:10px;right:10px;font-size:18px;color:rgba(61,48,53,.18)}
+.prod-info{padding:12px 14px 14px}
+.prod-brand{font-size:10px;color:var(--mid);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.prod-name{font-size:13px;font-weight:800;color:var(--dark);margin:3px 0;font-family:var(--dis);line-height:1.3}
+.prod-price{font-family:var(--mono);font-size:17px;color:var(--dark)}
+.prod-sub{font-size:10px;color:var(--mid);margin-top:2px}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(61,48,53,.5);z-index:400;opacity:0;pointer-events:none;transition:opacity .25s;display:flex;align-items:center;justify-content:center}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);border-radius:28px;width:620px;max-height:88vh;overflow-y:auto;position:relative;border:2.5px solid var(--pink)}
+.modal-close{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;background:var(--light);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:10}
+.modal-close:hover{background:var(--pink)}
+.step-section{display:none;padding:0}
+.step-section.active{display:block}
+.modal-top{display:flex}
+.modal-img{width:260px;min-height:260px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:80px;position:relative;overflow:hidden;border-radius:24px 0 0 0}
+.modal-img::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.45) 6px,transparent 6px);background-size:22px 22px}
+.modal-detail{flex:1;padding:24px 28px 20px}
+.modal-brand{font-size:11px;color:var(--mid);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.modal-name{font-size:22px;font-weight:900;color:var(--dark);margin-bottom:6px;font-family:var(--dis)}
+.modal-price{font-family:var(--mono);font-size:28px;margin-bottom:18px;color:var(--dark)}
+.opt-label{font-size:12px;font-weight:700;color:var(--mid);margin-bottom:6px;margin-top:12px}
+.opt-chips{display:flex;gap:7px;flex-wrap:wrap}
+.opt-chip{padding:7px 16px;border:2px solid var(--pink);border-radius:14px;font-size:13px;font-weight:700;font-family:var(--dis);cursor:pointer;transition:all .15s;background:none;color:var(--dark)}
+.opt-chip:hover{background:var(--pink)}
+.opt-chip.sel{background:var(--pink-d);color:var(--white);border-color:var(--pink-d)}
+.buy-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border-radius:16px;background:linear-gradient(135deg,var(--pink-d),var(--lav-d));color:var(--white);border:none;font-size:16px;font-weight:900;font-family:var(--dis);cursor:pointer;transition:opacity .15s;margin-top:18px}
+.buy-btn:hover{opacity:.9}
+.modal-footer{padding:14px 24px;border-top:2px dashed var(--pink)}
+/* STEP 2 */
+.step2-body{padding:28px}
+.step-ttl{font-size:20px;font-weight:900;color:var(--dark);margin-bottom:6px;font-family:var(--dis)}
+.step-sub{font-size:13px;color:var(--mid);margin-bottom:18px}
+.comment-area{width:100%;min-height:90px;border:2px solid var(--pink);border-radius:16px;padding:14px;font-size:14px;font-family:var(--font);color:var(--dark);outline:none;resize:vertical;line-height:1.6}
+.comment-area:focus{border-color:var(--pink-d)}
+.sticker-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin:14px 0}
+.stk{font-size:22px;cursor:pointer;text-align:center;padding:6px;border-radius:10px;transition:all .15s;border:2px solid transparent}
+.stk:hover{background:var(--light)}
+.stk.picked{background:var(--pink);border-color:var(--pink-d)}
+.prv-toggle{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:14px;padding:14px;margin:14px 0;cursor:pointer;border:2px solid var(--pink)}
+.prv-info{flex:1}
+.prv-ttl{font-size:14px;font-weight:700;color:var(--dark)}
+.prv-sub{font-size:12px;color:var(--mid)}
+.toggle-sw{width:44px;height:26px;border-radius:13px;background:var(--light);position:relative;transition:background .2s;flex-shrink:0}
+.toggle-sw.on{background:var(--pink-d)}
+.toggle-sw::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--white);transition:left .2s;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.toggle-sw.on::after{left:21px}
+.confirm-btn{width:100%;padding:14px;border-radius:16px;background:linear-gradient(135deg,var(--pink-d),var(--lav-d));color:var(--white);border:none;font-size:16px;font-weight:900;font-family:var(--dis);cursor:pointer;transition:opacity .15s}
+.confirm-btn:hover{opacity:.9}
+.back-btn{width:100%;padding:11px;border-radius:16px;background:var(--light);color:var(--mid);border:none;font-size:14px;font-weight:700;font-family:var(--dis);cursor:pointer;margin-top:8px}
+.back-btn:hover{background:var(--pink);color:var(--dark)}
+/* STEP 3 RECEIPT */
+.receipt-body{display:none;padding:28px}
+.receipt-body.active{display:block}
+.r-logo{font-size:22px;font-weight:900;font-family:var(--dis);margin-bottom:2px}
+.r-logo .oo{color:var(--pink-d)}
+.r-tag{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:#C0A090;text-transform:uppercase;margin-bottom:12px}
+.receipt-paper{background:var(--cream);border-radius:16px 16px 0 0;padding:22px;border:2px solid rgba(255,184,200,.5)}
+hr.r-div{border:none;border-top:1.5px dashed rgba(255,184,200,.9);margin:10px 0}
+.r-row{display:flex;justify-content:space-between;align-items:baseline;margin:3px 0}
+.r-key{font-family:var(--mono);font-size:11px;color:#B8A098}
+.r-val{font-family:var(--mono);font-size:12px;color:var(--dark);font-weight:500}
+.r-price-big{font-family:var(--mono);font-size:26px;color:var(--dark)}
+.r-tear{height:16px;position:relative;background:var(--cream)}
+.r-tear::before{content:'';position:absolute;top:0;left:0;right:0;height:100%;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='14'%3E%3Cellipse cx='11' cy='0' rx='11' ry='9' fill='%23FFFEFC'/%3E%3C/svg%3E") repeat-x;background-size:22px 14px}
+.r-comment{background:var(--white);border-radius:12px;padding:12px 14px;margin:12px 0;font-size:14px;color:var(--dark);border:1.5px dashed var(--pink);line-height:1.5}
+.r-thanks{text-align:center;font-family:var(--dis);font-size:16px;font-weight:900;color:var(--pink-d);margin-top:14px}
+.done-btns{display:flex;gap:10px;margin-top:18px}
+.done-btn{flex:1;padding:13px;border-radius:14px;font-size:14px;font-weight:700;font-family:var(--dis);cursor:pointer;transition:all .15s;border:none}
+.done-feed{background:linear-gradient(135deg,var(--pink-d),var(--lav-d));color:var(--white)}
+.done-more{background:var(--light);color:var(--mid)}
+.done-more:hover{background:var(--pink);color:var(--dark)}
+/* STEP 3 PAYMENT */
+.step3-body{padding:28px}
+.step-progress{display:flex;align-items:center;gap:5px;margin-bottom:20px}
+.sp-item{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--mid)}
+.sp-item.done{color:var(--mint-d)}.sp-item.active{color:var(--pink-d)}
+.sp-num{width:20px;height:20px;border-radius:50%;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0}
+.sp-item.done .sp-num{background:var(--mint);color:var(--mint-d)}.sp-item.active .sp-num{background:var(--pink);color:var(--pink-d)}
+.sp-arrow{color:var(--light);font-size:14px;margin:0 1px}
+.pay-summary{background:var(--bg);border-radius:14px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;border:2px solid var(--pink)}
+.pay-sum-info{display:flex;flex-direction:column;gap:3px}
+.pay-sum-name{font-size:14px;font-weight:800;color:var(--dark);font-family:var(--dis)}
+.pay-sum-detail{font-size:12px;color:var(--mid)}
+.pay-sum-price{font-family:var(--mono);font-size:22px;color:var(--dark);font-weight:700;flex-shrink:0;margin-left:12px}
+.pm-label{font-size:12px;font-weight:700;color:var(--mid);margin-bottom:10px}
+.pay-methods{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+.pay-method{padding:12px 6px;border-radius:14px;border:2.5px solid var(--pink);background:none;cursor:pointer;font-size:11px;font-weight:700;font-family:var(--dis);color:var(--mid);display:flex;flex-direction:column;align-items:center;gap:5px;transition:all .15s;line-height:1.3}
+.pay-method:hover{background:var(--light)}.pay-method.active{border-color:var(--pink-d);background:var(--pink);color:var(--dark)}
+.pay-method-icon{font-size:20px}
+.card-form{display:none}.card-form.show{display:block}
+.pay-field{margin-bottom:14px}.pay-field label{display:block;font-size:12px;font-weight:700;color:var(--mid);margin-bottom:6px}
+.pay-field input{width:100%;padding:12px 16px;border:2px solid var(--pink);border-radius:14px;font-size:15px;font-family:var(--mono);color:var(--dark);background:var(--bg);outline:none;transition:border-color .15s}
+.pay-field input:focus{border-color:var(--pink-d)}.pay-field input::placeholder{color:#D0B8C0;font-family:var(--font)}
+.pay-field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.quick-pay{width:100%;padding:16px;border-radius:16px;border:none;cursor:pointer;font-size:15px;font-weight:900;font-family:var(--dis);margin-bottom:10px;transition:opacity .15s}
+.quick-pay:hover{opacity:.88}.qp-kakao{background:#FEE500;color:#3A1D00}.qp-toss{background:#0064FF;color:white}.qp-naver{background:#03C75A;color:white}
+.pay-btn{width:100%;padding:15px;border-radius:16px;background:linear-gradient(135deg,var(--pink-d),var(--lav-d));color:var(--white);border:none;font-size:16px;font-weight:900;font-family:var(--dis);cursor:pointer;transition:opacity .15s}
+.pay-btn:hover{opacity:.9}.pay-btn:disabled{opacity:.5;cursor:not-allowed}
+.spinner-pay{display:none;width:20px;height:20px;border:2.5px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto}
+.pay-btn.loading .pay-text{display:none}.pay-btn.loading .spinner-pay{display:block}
+.secure-note{text-align:center;font-size:11px;color:var(--mid);margin-top:12px;display:flex;align-items:center;justify-content:center;gap:5px}
+</style>
+</head>
+<body>
+<div class="rainbow-strip"></div>
+<header class="app-header">
+  <a href="index.html" class="logo">
+    <span class="lp lp-l">l</span><span class="lp lp-o1">O</span><span class="lp lp-o2">O</span><span class="lp lp-k">k</span><span class="lp lp-x">!</span>
+  </a>
+  <nav class="main-nav">
+    <a href="index.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>홈</a>
+    <a href="explore.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>탐색</a>
+    <a href="shop.html" class="nav-link shop-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>쇼핑하기</a>
+    <a href="notifications.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>알림</a>
+    <a href="profile.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>마이</a>
+  </nav>
+  <div class="hdr-right">
+    <button class="hdr-av" onclick="location.href='profile.html'">🦋</button>
+  </div>
+</header>
+
+<div class="page-body">
+  <aside class="filter-sidebar">
+    <div class="filter-card">
+      <div class="filter-ttl">✦ 카테고리</div>
+      <div class="cat-list">
+        <div class="cat-item active" onclick="filterCat('전체',this)"><span>🛍️ 전체</span><span class="cat-count">6</span></div>
+        <div class="cat-item" onclick="filterCat('상의',this)"><span>👕 상의</span><span class="cat-count">1</span></div>
+        <div class="cat-item" onclick="filterCat('하의',this)"><span>👗 하의</span><span class="cat-count">1</span></div>
+        <div class="cat-item" onclick="filterCat('아우터',this)"><span>🧥 아우터</span><span class="cat-count">1</span></div>
+        <div class="cat-item" onclick="filterCat('신발',this)"><span>👠 신발</span><span class="cat-count">1</span></div>
+        <div class="cat-item" onclick="filterCat('가방',this)"><span>👜 가방</span><span class="cat-count">1</span></div>
+        <div class="cat-item" onclick="filterCat('액세서리',this)"><span>📿 액세서리</span><span class="cat-count">1</span></div>
+      </div>
+    </div>
+    <div class="filter-card">
+      <div class="filter-ttl">✦ 브랜드</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;position:relative">
+        <span class="brand-tag on" onclick="this.classList.toggle('on')">마뗑킴</span>
+        <span class="brand-tag" onclick="this.classList.toggle('on')">로맨틱 크라운</span>
+        <span class="brand-tag" onclick="this.classList.toggle('on')">닥터마틴</span>
+        <span class="brand-tag" onclick="this.classList.toggle('on')">찰스앤키스</span>
+        <span class="brand-tag" onclick="this.classList.toggle('on')">에이블리</span>
+      </div>
+    </div>
+    <div class="filter-card">
+      <div class="filter-ttl">✦ 가격대</div>
+      <div style="display:flex;flex-direction:column;gap:8px;position:relative">
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" checked> ~3만원</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" checked> 3~7만원</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" checked> 7만원~</label>
+      </div>
+    </div>
+  </aside>
+
+  <div>
+    <div class="sort-bar">
+      <div class="sort-ttl">🛍️ 전체 상품 <span id="prodCount" style="font-size:14px;font-weight:400;color:var(--mid)">6개</span></div>
+      <select class="sort-sel"><option>인기순</option><option>최신순</option><option>낮은 가격순</option><option>높은 가격순</option></select>
+    </div>
+    <div class="prod-grid" id="prodGrid"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <!-- STEP 1 -->
+    <div id="step1" class="step-section active">
+      <div class="modal-top">
+        <div class="modal-img" id="mImg"><span id="mEmoji" style="position:relative;z-index:1">👕</span></div>
+        <div class="modal-detail">
+          <div class="modal-brand" id="mBrand"></div>
+          <div class="modal-name" id="mName"></div>
+          <div class="modal-price" id="mPrice"></div>
+          <div class="opt-label">사이즈</div>
+          <div class="opt-chips" id="sizeChips"></div>
+          <div class="opt-label">컬러</div>
+          <div class="opt-chips" id="colorChips"></div>
+          <button class="buy-btn" onclick="goStep2()">💳 구매하기 →</button>
+        </div>
+      </div>
+      <div class="modal-footer"><span style="font-size:12px;color:var(--mid);font-family:'DM Mono'">★ lOOk!에서 구매하면 자동으로 피드에 공유돼요</span></div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step2" class="step-section">
+      <div class="step2-body">
+        <div class="step-ttl">🧾 구매 코멘트 남기기</div>
+        <div class="step-sub">친구들에게 구매 이유를 알려줘요 — 솔직할수록 좋아요!</div>
+        <textarea class="comment-area" id="commentInput" placeholder='"이거 못 참겠다"도 훌륭한 이유예요 ✦'></textarea>
+        <div style="font-size:12px;font-weight:700;color:var(--mid);margin-top:14px;margin-bottom:6px">스티커 선택</div>
+        <div class="sticker-grid" id="stickerGrid"></div>
+        <div class="prv-toggle" onclick="togglePrivate()">
+          <span style="font-size:22px">🔒</span>
+          <div class="prv-info"><div class="prv-ttl">비공개로 구매하기</div><div class="prv-sub">친구들 피드에 안 보여요</div></div>
+          <div class="toggle-sw" id="prvSwitch"></div>
+        </div>
+        <button class="confirm-btn" onclick="doCheckout()">결제하기 →</button>
+        <button class="back-btn" onclick="showStep(1)">← 돌아가기</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: 결제 -->
+    <div id="step3" class="step-section">
+      <div class="step3-body">
+        <div class="step-progress">
+          <div class="sp-item done"><div class="sp-num">✓</div>상품</div>
+          <span class="sp-arrow">›</span>
+          <div class="sp-item done"><div class="sp-num">✓</div>코멘트</div>
+          <span class="sp-arrow">›</span>
+          <div class="sp-item active"><div class="sp-num">3</div>결제</div>
+          <span class="sp-arrow">›</span>
+          <div class="sp-item"><div class="sp-num">4</div>완료</div>
+        </div>
+        <div class="step-ttl">💳 결제</div>
+        <div class="step-sub" style="margin-bottom:16px">결제 수단을 선택해주세요</div>
+        <div class="pay-summary">
+          <div class="pay-sum-info">
+            <div class="pay-sum-name" id="paySumName"></div>
+            <div class="pay-sum-detail" id="paySumDetail"></div>
+          </div>
+          <div class="pay-sum-price" id="paySumPrice"></div>
+        </div>
+        <div class="pm-label">결제 수단 선택</div>
+        <div class="pay-methods">
+          <button class="pay-method active" id="pm-card" onclick="selectPM('card')"><span class="pay-method-icon">💳</span>신용/체크카드</button>
+          <button class="pay-method" id="pm-kakao" onclick="selectPM('kakao')"><span class="pay-method-icon">🟡</span>카카오페이</button>
+          <button class="pay-method" id="pm-toss" onclick="selectPM('toss')"><span class="pay-method-icon">🔵</span>토스페이</button>
+          <button class="pay-method" id="pm-naver" onclick="selectPM('naver')"><span class="pay-method-icon">🟢</span>네이버페이</button>
+        </div>
+        <div class="card-form show" id="cardForm">
+          <div class="pay-field">
+            <label>카드번호</label>
+            <input type="text" id="cardNum" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)" inputmode="numeric">
+          </div>
+          <div class="pay-field-row">
+            <div class="pay-field">
+              <label>유효기간</label>
+              <input type="text" id="cardExp" placeholder="MM/YY" maxlength="5" oninput="fmtExp(this)" inputmode="numeric">
+            </div>
+            <div class="pay-field">
+              <label>CVC</label>
+              <input type="password" id="cardCvc" placeholder="•••" maxlength="3" oninput="this.value=this.value.replace(/\D/g,'')" inputmode="numeric">
+            </div>
+          </div>
+          <div class="pay-field">
+            <label>카드 소유자 이름</label>
+            <input type="text" id="cardName" placeholder="홍 길동" style="font-family:var(--font)">
+          </div>
+        </div>
+        <div id="quickPayArea" style="display:none">
+          <button class="quick-pay qp-kakao" id="quickPayBtn" onclick="doPayment()">
+            <span id="quickPayText">카카오페이로 결제하기</span>
+          </button>
+        </div>
+        <button class="pay-btn" id="payBtn" onclick="doPayment()">
+          <span class="pay-text" id="payBtnText">결제하기</span>
+          <div class="spinner-pay"></div>
+        </button>
+        <button class="back-btn" onclick="showStep(2)" style="margin-top:8px">← 코멘트로 돌아가기</button>
+        <div class="secure-note">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          SSL 암호화 보안 결제 · lOOk! 결제 시스템
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: 영수증 -->
+    <div id="step4" class="receipt-body">
+      <div class="r-logo">l<span class="oo">OO</span>k!</div>
+      <div class="r-tag">✦ PURCHASE RECEIPT ✦</div>
+      <div class="receipt-paper">
+        <hr class="r-div">
+        <div class="r-row"><span class="r-key">BRAND</span><span class="r-val" id="rBrand"></span></div>
+        <div class="r-row"><span class="r-key">ITEM</span><span class="r-val" id="rName"></span></div>
+        <div class="r-row"><span class="r-key">SIZE</span><span class="r-val" id="rSize"></span></div>
+        <div class="r-row"><span class="r-key">COLOR</span><span class="r-val" id="rColor"></span></div>
+        <hr class="r-div">
+        <div class="r-row"><span class="r-key">TOTAL</span><span class="r-price-big" id="rPrice"></span></div>
+        <hr class="r-div">
+        <div class="r-row"><span class="r-key">DATE</span><span class="r-val" id="rDate"></span></div>
+        <div class="r-row"><span class="r-key">PAY</span><span class="r-val" id="rPayMethod"></span></div>
+        <div class="r-tear"></div>
+        <div class="r-comment" id="rComment"></div>
+        <div class="r-thanks">Thank you for looking 👀 ✦</div>
+      </div>
+      <div class="done-btns">
+        <button class="done-btn done-feed" onclick="location.href='index.html'">👀 피드 보기</button>
+        <button class="done-btn done-more" onclick="closeModal()">계속 쇼핑</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb=supabase.createClient(
+  'https://pgfysjkftzdkebvnmcwr.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnZnlzamtmdHpka2Vidm5tY3dyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ1OTIsImV4cCI6MjA5ODU1MDU5Mn0.5vy6TSPcQzOBh9fQDdYv4fvRel89zH-ynDCNFJu05YI'
+);
+const STICKERS=['🎀','🌸','✨','🛍️','💅','🤩','🙈','😍','🥲','💸','🧸','🎁'];
+
+const PROD_SVG={
+  상의:`<svg viewBox="0 0 80 80" fill="none" stroke="rgba(204,51,102,.75)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M28 14L12 24l10 7V66h36V31l10-7L42 14l-10 5a4 4 0 01-4 0z" fill="rgba(255,255,255,.55)"/><path d="M28 14.5Q40 22 52 14.5"/><line x1="17" y1="27" x2="23" y2="33"/><line x1="63" y1="27" x2="57" y2="33"/><line x1="22" y1="60" x2="58" y2="60"/><line x1="22" y1="63" x2="58" y2="63"/></svg>`,
+  하의:`<svg viewBox="0 0 80 80" fill="none" stroke="rgba(80,80,204,.7)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="14" width="44" height="8" rx="3" fill="rgba(255,255,255,.55)"/><path d="M20 22L14 66h18l8-24 8 24h18L60 22" fill="rgba(255,255,255,.45)"/><line x1="18" y1="28" x2="62" y2="28"/><line x1="18" y1="34" x2="36" y2="34"/><line x1="44" y1="34" x2="62" y2="34"/></svg>`,
+  아우터:`<svg viewBox="0 0 80 80" fill="none" stroke="rgba(26,128,112,.75)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M30 12L10 24l10 7V68h40V31l10-7L50 12v5l-8 4a4 4 0 01-4 0l-8-4z" fill="rgba(255,255,255,.5)"/><line x1="36" y1="17" x2="44" y2="17"/><line x1="40" y1="24" x2="40" y2="64"/><rect x="30" y="30" width="10" height="4" rx="1" fill="rgba(255,255,255,.7)"/></svg>`,
+  신발:`<svg viewBox="0 0 80 80" fill="none" stroke="rgba(200,144,0,.8)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M12 50c0-14 8-30 20-30l20 5 14 5v10H12z" fill="rgba(255,255,255,.5)"/><rect x="10" y="50" width="60" height="12" rx="5" fill="rgba(255,255,255,.55)"/><path d="M32 20l5-8"/><path d="M36 22l6 3" stroke-width="2"/><circle cx="34" cy="18" r="2.5" fill="rgba(200,144,0,.6)"/></svg>`,
+  가방:`<svg viewBox="0 0 80 80" fill="none" stroke="rgba(80,80,204,.7)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="28" width="56" height="40" rx="6" fill="rgba(255,255,255,.5)"/><path d="M28 28v-6a12 12 0 0124 0v6"/><line x1="12" y1="42" x2="68" y2="42"/><rect x="31" y="37" width="18" height="10" rx="3" fill="rgba(255,255,255,.7)"/><circle cx="40" cy="42" r="2" fill="rgba(80,80,204,.5)"/></svg>`,
+  액세서리:`<svg viewBox="0 0 80 80" fill="none" stroke="rgba(200,144,0,.8)" stroke-width="2.5" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg"><ellipse cx="40" cy="46" rx="26" ry="6" fill="rgba(255,255,255,.4)"/><ellipse cx="40" cy="40" rx="22" ry="5" fill="rgba(255,255,255,.4)"/><ellipse cx="40" cy="34" rx="18" ry="4" fill="rgba(255,255,255,.4)"/><line x1="40" y1="30" x2="40" y2="14"/><circle cx="40" cy="12" r="4" fill="rgba(200,144,0,.6)" stroke="none"/><circle cx="40" cy="12" r="2" fill="white"/></svg>`,
+};
+
+const PRODUCTS=[
+  {id:'p1',brand:'마뗑킴',name:'크롭 니트 가디건',price:52000,cat:'상의',emoji:'👕',bg:'pt-p',hot:true,sizes:['XS','S','M','L'],colors:['MINT GREEN','BUTTER CREAM','DUSTY PINK']},
+  {id:'p2',brand:'로맨틱 크라운',name:'플리츠 미디 스커트',price:68000,cat:'하의',emoji:'👗',bg:'pt-l',sizes:['XS','S','M'],colors:['DUSTY PINK','IVORY','LAVENDER']},
+  {id:'p3',brand:'닥터마틴',name:'체리 레드 1461',price:185000,cat:'신발',emoji:'👞',bg:'pt-y',hot:true,sizes:['230','235','240','245','250'],colors:['CHERRY RED','BLACK']},
+  {id:'p4',brand:'찰스앤키스',name:'리본 메리제인 플랫슈즈',price:89000,cat:'신발',emoji:'👠',bg:'pt-m',sizes:['225','230','235','240','245'],colors:['BLACK','SILVER','NUDE']},
+  {id:'p5',brand:'마뗑킴',name:'미니 숄더백',price:95000,cat:'가방',emoji:'👜',bg:'pt-l',sizes:['ONE SIZE'],colors:['IVORY','BLACK','BROWN']},
+  {id:'p6',brand:'에이블리',name:'레이어드 골드 네크리스',price:24000,cat:'액세서리',emoji:'📿',bg:'pt-y',sizes:['FREE'],colors:['GOLD','SILVER']},
+  {id:'p7',brand:'마뗑킴',name:'오버핏 데님 재킷',price:120000,cat:'아우터',emoji:'🧥',bg:'pt-m',hot:true,sizes:['S','M','L'],colors:['LIGHT BLUE','DARK INDIGO']},
+];
+const BG_COLOR={'pt-p':'var(--pink)','pt-l':'var(--lav)','pt-y':'var(--yellow)','pt-m':'var(--mint)'};
+let selProd=null,selSize=null,selColor=null,selSticker='🎀',isPrivate=false,curCat='전체';
+
+function filterCat(cat,el){
+  curCat=cat;
+  document.querySelectorAll('.cat-item').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  renderProds();
+}
+function renderProds(){
+  const filtered=curCat==='전체'?PRODUCTS:PRODUCTS.filter(p=>p.cat===curCat);
+  document.getElementById('prodCount').textContent=filtered.length+'개';
+  document.getElementById('prodGrid').innerHTML=filtered.map(p=>`
+    <div class="prod-card" onclick="openProd('${p.id}')">
+      ${p.hot?'<div class="prod-hot">🔥 인기</div>':''}
+      <div class="prod-thumb ${p.bg}" style="padding:10px">${PROD_SVG[p.cat]||p.emoji}<span class="prod-star">✦</span></div>
+      <div class="prod-info">
+        <div class="prod-brand">${p.brand}</div>
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-price">${p.price.toLocaleString('ko-KR')}원</div>
+        <div class="prod-sub">${p.cat} · 무료배송</div>
+      </div>
+    </div>`).join('');
+}
+function openProd(id){
+  selProd=PRODUCTS.find(p=>p.id===id);
+  if(!selProd)return;
+  selSize=null;selColor=null;selSticker='🎀';isPrivate=false;
+  document.getElementById('mImg').style.background=BG_COLOR[selProd.bg]||'var(--pink)';
+  document.getElementById('mEmoji').innerHTML=`<div style="width:100px;height:100px">${PROD_SVG[selProd.cat]||selProd.emoji}</div>`;
+  document.getElementById('mBrand').textContent=selProd.brand;
+  document.getElementById('mName').textContent=selProd.name;
+  document.getElementById('mPrice').textContent=selProd.price.toLocaleString('ko-KR')+'원';
+  document.getElementById('sizeChips').innerHTML=selProd.sizes.map(s=>`<button class="opt-chip" onclick="pickOpt(this,'size','${s}')">${s}</button>`).join('');
+  document.getElementById('colorChips').innerHTML=selProd.colors.map(c=>`<button class="opt-chip" onclick="pickOpt(this,'color','${c}')">${c}</button>`).join('');
+  document.getElementById('stickerGrid').innerHTML=STICKERS.map(s=>`<div class="stk${s===selSticker?' picked':''}" onclick="pickSticker(this,'${s}')">${s}</div>`).join('');
+  document.getElementById('prvSwitch').className='toggle-sw';
+  showStep(1);
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function pickOpt(btn,type,val){
+  const group=type==='size'?'sizeChips':'colorChips';
+  document.querySelectorAll('#'+group+' .opt-chip').forEach(x=>x.classList.remove('sel'));
+  btn.classList.add('sel');
+  if(type==='size')selSize=val;else selColor=val;
+}
+function pickSticker(el,s){selSticker=s;document.querySelectorAll('.stk').forEach(x=>x.classList.remove('picked'));el.classList.add('picked')}
+function togglePrivate(){isPrivate=!isPrivate;document.getElementById('prvSwitch').className='toggle-sw'+(isPrivate?' on':'')}
+function goStep2(){
+  if(!selSize){alert('사이즈를 선택해주세요!');return}
+  if(!selColor){alert('컬러를 선택해주세요!');return}
+  showStep(2);
+}
+let selPM='card';
+function showStep(n){
+  document.getElementById('step1').className='step-section'+(n===1?' active':'');
+  document.getElementById('step2').className='step-section'+(n===2?' active':'');
+  document.getElementById('step3').className='step-section'+(n===3?' active':'');
+  document.getElementById('step4').className='receipt-body'+(n===4?' active':'');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open')}
+document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+function doCheckout(){
+  if(!selProd)return;
+  document.getElementById('paySumName').textContent=selProd.name;
+  document.getElementById('paySumDetail').textContent=selProd.brand+' · '+selSize+' · '+selColor;
+  document.getElementById('paySumPrice').textContent=selProd.price.toLocaleString('ko-KR')+'원';
+  document.getElementById('payBtnText').textContent='결제하기 '+selProd.price.toLocaleString('ko-KR')+'원';
+  selectPM('card');
+  showStep(3);
+}
+function selectPM(pm){
+  selPM=pm;
+  ['card','kakao','toss','naver'].forEach(id=>{
+    document.getElementById('pm-'+id).classList.toggle('active',id===pm);
+  });
+  const isCard=pm==='card';
+  document.getElementById('cardForm').className='card-form'+(isCard?' show':'');
+  document.getElementById('quickPayArea').style.display=isCard?'none':'block';
+  document.getElementById('payBtn').style.display=isCard?'block':'none';
+  const labels={kakao:'카카오페이로 결제하기',toss:'토스페이로 결제하기',naver:'네이버페이로 결제하기'};
+  const colors={kakao:'qp-kakao',toss:'qp-toss',naver:'qp-naver'};
+  if(!isCard){
+    document.getElementById('quickPayText').textContent=labels[pm];
+    document.getElementById('quickPayBtn').className='quick-pay '+(colors[pm]||'');
+  }
+}
+function fmtCard(inp){
+  let v=inp.value.replace(/\D/g,'').substring(0,16);
+  v=v.replace(/(.{4})/g,'$1 ').trim();
+  inp.value=v;
+}
+function fmtExp(inp){
+  let v=inp.value.replace(/\D/g,'').substring(0,4);
+  if(v.length>2)v=v.substring(0,2)+'/'+v.substring(2);
+  inp.value=v;
+}
+function doPayment(){
+  if(selPM==='card'){
+    const num=document.getElementById('cardNum').value.replace(/\s/g,'');
+    const exp=document.getElementById('cardExp').value;
+    const cvc=document.getElementById('cardCvc').value;
+    const name=document.getElementById('cardName').value.trim();
+    if(num.length<16){alert('카드번호를 정확히 입력해주세요');return}
+    if(exp.length<5){alert('유효기간을 입력해주세요 (MM/YY)');return}
+    if(cvc.length<3){alert('CVC 3자리를 입력해주세요');return}
+    if(!name){alert('카드 소유자 이름을 입력해주세요');return}
+    const btn=document.getElementById('payBtn');
+    btn.classList.add('loading');btn.disabled=true;
+    setTimeout(()=>{saveAndReceipt();btn.classList.remove('loading');btn.disabled=false;},1200);
+  }else{
+    const btn=document.getElementById('quickPayBtn');
+    btn.disabled=true;btn.style.opacity='.6';
+    setTimeout(()=>{saveAndReceipt();btn.disabled=false;btn.style.opacity='1';},1000);
+  }
+}
+async function saveAndReceipt(){
+  if(!selProd)return;
+  const now=new Date();
+  const ds=`${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+  const ts=`${now.getHours()<12?'오전':'오후'} ${now.getHours()%12||12}:${String(now.getMinutes()).padStart(2,'0')}`;
+  const comment=document.getElementById('commentInput').value.trim()||'또 질러버렸어 ✦';
+
+  // Supabase에 저장
+  const{data:{user}}=await sb.auth.getUser();
+  if(user){
+    await sb.from('posts').insert({
+      user_id:user.id,
+      comment,
+      sticker:selSticker,
+      item_brand:selProd.brand,
+      item_name:selProd.name,
+      item_size:selSize,
+      item_color:selColor,
+      item_price:selProd.price,
+      item_cat:selProd.cat,
+      is_private:isPrivate,
+      pay_method:selPM
+    });
+  }
+
+  const pmLabel={card:'신용/체크카드',kakao:'카카오페이',toss:'토스페이',naver:'네이버페이'};
+  document.getElementById('rBrand').textContent=selProd.brand;
+  document.getElementById('rName').textContent=selProd.name;
+  document.getElementById('rSize').textContent=selSize;
+  document.getElementById('rColor').textContent=selColor;
+  document.getElementById('rPrice').textContent=selProd.price.toLocaleString('ko-KR')+'원';
+  document.getElementById('rDate').textContent=ds+' '+ts;
+  document.getElementById('rPayMethod').textContent=pmLabel[selPM]||selPM;
+  document.getElementById('rComment').textContent=selSticker+' "'+comment+'"';
+  showStep(4);
+}
+renderProds();
+</script>
+</body>
+</html>

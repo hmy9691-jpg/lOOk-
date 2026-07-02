@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회원가입 — lOOk!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#FFB8C8;--pink-d:#CC3366;
+  --mint:#B8EFE4;--mint-d:#1A8070;
+  --yellow:#FFF0B0;--yellow-d:#C89000;
+  --lav:#C8C8FF;--lav-d:#5050CC;
+  --bg:#FFF9F5;--white:#FFFFFF;--dark:#3D3035;--mid:#9A8088;--light:#F5F0F3;
+  --font:'Noto Sans KR',-apple-system,sans-serif;
+  --dis:'Nunito',var(--font);
+  --shadow:0 4px 24px rgba(180,130,200,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:var(--font);color:var(--dark);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background-color:var(--bg);
+  background-image:
+    repeating-linear-gradient(45deg,rgba(255,184,200,.2) 0 1px,transparent 1px 16px),
+    repeating-linear-gradient(-45deg,rgba(184,239,228,.2) 0 1px,transparent 1px 16px),
+    radial-gradient(circle,rgba(200,200,255,.18) 3px,transparent 3px);
+  background-size:22px 22px,22px 22px,28px 28px;
+  padding:24px;
+}
+.rainbow-top{height:5px;background:linear-gradient(to right,var(--pink) 25%,var(--yellow) 25% 50%,var(--lav) 50% 75%,var(--mint) 75%);position:fixed;top:0;left:0;right:0;z-index:100}
+.logo{display:flex;align-items:center;gap:3px;justify-content:center;margin-bottom:6px;text-decoration:none}
+.lp{height:36px;min-width:33px;padding:0 8px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--dis);font-size:20px;font-weight:900;color:var(--dark)}
+.lp-l{background:var(--pink);border-radius:11px 4px 4px 11px}
+.lp-o1{background:var(--mint)}.lp-o2{background:var(--yellow)}
+.lp-k{background:var(--lav);border-radius:4px 11px 11px 4px}
+.lp-x{background:var(--pink);min-width:24px;border-radius:9px;font-size:18px}
+
+.card{background:var(--white);border-radius:28px;border:2.5px solid var(--mint);box-shadow:var(--shadow);width:100%;max-width:460px;padding:36px 32px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:linear-gradient(135deg,var(--mint),var(--yellow));opacity:.13;pointer-events:none}
+.card::after{content:'';position:absolute;bottom:-40px;left:-40px;width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--lav));opacity:.12;pointer-events:none}
+.card-ttl{text-align:center;font-size:22px;font-weight:900;font-family:var(--dis);color:var(--dark);margin-bottom:4px}
+.card-sub{text-align:center;font-size:13px;color:var(--mid);margin-bottom:24px}
+
+/* STEP INDICATOR */
+.step-ind{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:26px}
+.s-dot{width:34px;height:8px;border-radius:4px;background:var(--light);transition:all .3s}
+.s-dot.done{background:var(--mint-d)}
+.s-dot.active{background:linear-gradient(90deg,var(--mint),var(--lav));width:56px}
+.s-line{width:18px;height:2px;background:var(--light)}
+.s-line.done{background:var(--mint-d)}
+.step-label{text-align:center;font-size:11px;font-weight:700;color:var(--mid);margin-bottom:20px;letter-spacing:.06em}
+
+/* FORM */
+.step-panel{display:none}
+.step-panel.active{display:block}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--mid);margin-bottom:6px}
+.field input,.field textarea{
+  width:100%;padding:13px 16px;border:2px solid var(--pink);border-radius:14px;
+  font-size:15px;font-family:var(--font);color:var(--dark);background:var(--bg);outline:none;
+  transition:border-color .15s;
+}
+.field input:focus,.field textarea:focus{border-color:var(--pink-d)}
+.field input::placeholder,.field textarea::placeholder{color:#D0B8C0}
+.field textarea{resize:none;height:72px;line-height:1.5}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:46px}
+.pw-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px}
+.error-msg{font-size:12px;color:var(--pink-d);margin-top:5px;display:none}
+.field.err input,.field.err textarea{border-color:var(--pink-d)}
+.field.err .error-msg{display:block}
+.field-hint{font-size:11px;color:var(--mid);margin-top:5px}
+.char-count{text-align:right;font-size:11px;color:var(--mid);margin-top:4px}
+
+/* AVATAR PICKER */
+.av-section{margin-bottom:18px}
+.av-section label{display:block;font-size:12px;font-weight:700;color:var(--mid);margin-bottom:10px}
+.av-preview{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--lav));display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 14px;border:3px solid var(--white);box-shadow:0 3px 16px rgba(200,150,200,.3)}
+.av-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.av-opt{width:100%;aspect-ratio:1;border-radius:10px;border:2px solid transparent;font-size:22px;cursor:pointer;background:var(--light);display:flex;align-items:center;justify-content:center;transition:all .15s}
+.av-opt:hover{background:var(--pink);transform:scale(1.1)}
+.av-opt.selected{border-color:var(--pink-d);background:var(--pink)}
+
+/* HANDLE PREVIEW */
+.handle-preview{font-family:'DM Mono',monospace;font-size:12px;color:var(--mid);margin-top:5px}
+.handle-preview span{color:var(--pink-d);font-weight:600}
+
+/* BUTTONS */
+.btn-main{
+  width:100%;padding:15px;border-radius:16px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--mint-d),var(--lav-d));
+  color:var(--white);font-size:16px;font-weight:900;font-family:var(--dis);
+  margin-top:8px;transition:opacity .15s;
+}
+.btn-main:hover{opacity:.88}
+.btn-main:disabled{opacity:.5;cursor:not-allowed}
+.btn-back{
+  width:100%;padding:13px;border-radius:14px;border:2.5px solid var(--pink);cursor:pointer;
+  background:transparent;color:var(--dark);font-size:14px;font-weight:700;font-family:var(--dis);
+  margin-top:10px;transition:all .15s;
+}
+.btn-back:hover{background:var(--pink)}
+.links{text-align:center;margin-top:20px;font-size:13px;color:var(--mid)}
+.links a{color:var(--pink-d);font-weight:700;cursor:pointer;text-decoration:none}
+.links a:hover{text-decoration:underline}
+
+.spinner{display:none;width:20px;height:20px;border:2.5px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn-main.loading .btn-text{display:none}
+.btn-main.loading .spinner{display:block}
+
+/* TERMS */
+.terms-check{display:flex;align-items:flex-start;gap:10px;margin-top:12px;padding:12px 14px;background:var(--bg);border-radius:12px}
+.terms-check input[type=checkbox]{width:18px;height:18px;flex-shrink:0;accent-color:var(--pink-d);margin-top:2px}
+.terms-check label{font-size:12px;color:var(--mid);line-height:1.5;cursor:pointer}
+.terms-check label a{color:var(--pink-d);text-decoration:none}
+.terms-check label a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="rainbow-top"></div>
+
+<a href="login.html" class="logo">
+  <span class="lp lp-l">l</span>
+  <span class="lp lp-o1">O</span>
+  <span class="lp lp-o2">O</span>
+  <span class="lp lp-k">k</span>
+  <span class="lp lp-x">!</span>
+</a>
+
+<div class="card">
+  <div class="card-ttl">처음 만났어요 👋</div>
+  <div class="card-sub">lOOk!에서 나만의 스타일을 공유해봐요</div>
+
+  <div class="step-ind">
+    <div class="s-dot active" id="dot1"></div>
+    <div class="s-line" id="line1"></div>
+    <div class="s-dot" id="dot2"></div>
+  </div>
+  <div class="step-label" id="stepLabel">STEP 1 · 계정 정보</div>
+
+  <!-- STEP 1: 계정 정보 -->
+  <div class="step-panel active" id="panel1">
+    <div class="field" id="f-email">
+      <label>이메일</label>
+      <input type="email" id="s-email" placeholder="example@email.com" autocomplete="email">
+      <div class="error-msg"></div>
+    </div>
+    <div class="field-row">
+      <div class="field" id="f-pw">
+        <label>비밀번호</label>
+        <div class="pw-wrap">
+          <input type="password" id="s-pw" placeholder="6자 이상" autocomplete="new-password">
+          <button type="button" class="pw-toggle" onclick="togglePw('s-pw',this)">👁️</button>
+        </div>
+        <div class="error-msg"></div>
+      </div>
+      <div class="field" id="f-pw2">
+        <label>비밀번호 확인</label>
+        <div class="pw-wrap">
+          <input type="password" id="s-pw2" placeholder="동일하게 입력" autocomplete="new-password">
+          <button type="button" class="pw-toggle" onclick="togglePw('s-pw2',this)">👁️</button>
+        </div>
+        <div class="error-msg"></div>
+      </div>
+    </div>
+
+    <div class="terms-check">
+      <input type="checkbox" id="terms" name="terms">
+      <label for="terms">
+        <a href="#" onclick="return false">서비스 이용약관</a> 및 <a href="#" onclick="return false">개인정보처리방침</a>에 동의합니다 (필수)
+      </label>
+    </div>
+    <div class="field" id="f-terms" style="margin-top:0;margin-bottom:0"><div class="error-msg"></div></div>
+
+    <button class="btn-main" onclick="goStep2()">다음 →</button>
+    <div class="links">이미 계정이 있으신가요? <a href="login.html">로그인</a></div>
+  </div>
+
+  <!-- STEP 2: 프로필 설정 -->
+  <div class="step-panel" id="panel2">
+    <div class="av-section">
+      <label>프로필 아이콘 선택</label>
+      <div class="av-preview" id="avPreview">🦋</div>
+      <div class="av-grid" id="avGrid"></div>
+    </div>
+
+    <div class="field-row">
+      <div class="field" id="f-name">
+        <label>이름</label>
+        <input type="text" id="s-name" placeholder="홍길동" maxlength="20" autocomplete="name">
+        <div class="error-msg"></div>
+      </div>
+      <div class="field" id="f-handle">
+        <label>닉네임 (영문)</label>
+        <input type="text" id="s-handle" placeholder="my_look" maxlength="20" oninput="previewHandle(this)" autocomplete="username">
+        <div class="handle-preview">lOOk!/<span id="handleSpan">...</span></div>
+        <div class="error-msg"></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>한 줄 소개 <span style="font-weight:400">(선택)</span></label>
+      <textarea id="s-bio" placeholder="나의 스타일을 한 줄로!" maxlength="60" oninput="updateCount(this,'bioCount',60)"></textarea>
+      <div class="char-count"><span id="bioCount">0</span>/60</div>
+    </div>
+
+    <button class="btn-main" id="signupBtn" onclick="doSignup()">
+      <span class="btn-text">가입 완료!</span>
+      <div class="spinner"></div>
+    </button>
+    <button class="btn-back" onclick="goStep1()">← 이전</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb=supabase.createClient(
+  'https://pgfysjkftzdkebvnmcwr.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnZnlzamtmdHpka2Vidm5tY3dyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ1OTIsImV4cCI6MjA5ODU1MDU5Mn0.5vy6TSPcQzOBh9fQDdYv4fvRel89zH-ynDCNFJu05YI'
+);
+sb.auth.getSession().then(({data:{session}})=>{if(session)location.href='index.html';});
+
+const AVATARS=['🦋','🌸','⭐','🎀','🌷','🍓','🧸','🌈','💫','🍄','🌙','🦊','🐰','🌻','💎','🎸','🍭','🌴','🦄','🐝','🍦','🎪','🌊','🎭'];
+let selectedAv='🦋';
+
+function initAvGrid(){
+  const g=document.getElementById('avGrid');
+  AVATARS.forEach((em,i)=>{
+    const b=document.createElement('button');
+    b.className='av-opt'+(i===0?' selected':'');
+    b.textContent=em;
+    b.onclick=()=>{
+      document.querySelectorAll('.av-opt').forEach(x=>x.classList.remove('selected'));
+      b.classList.add('selected');
+      selectedAv=em;
+      document.getElementById('avPreview').textContent=em;
+    };
+    g.appendChild(b);
+  });
+}
+initAvGrid();
+
+function togglePw(id,btn){
+  const inp=document.getElementById(id);
+  const show=inp.type==='password';
+  inp.type=show?'text':'password';
+  btn.textContent=show?'🙈':'👁️';
+}
+
+function previewHandle(inp){
+  let v=inp.value.replace(/[^a-zA-Z0-9_]/g,'').toLowerCase();
+  inp.value=v;
+  document.getElementById('handleSpan').textContent=v||'...';
+}
+
+function updateCount(inp,countId,max){
+  document.getElementById(countId).textContent=inp.value.length;
+}
+
+function clearErr(id){document.getElementById(id).classList.remove('err')}
+function setErr(id,msg){
+  const f=document.getElementById(id);
+  f.classList.add('err');
+  f.querySelector('.error-msg').textContent=msg;
+}
+
+function goStep2(){
+  let ok=true;
+  const email=document.getElementById('s-email').value.trim();
+  const pw=document.getElementById('s-pw').value;
+  const pw2=document.getElementById('s-pw2').value;
+  const terms=document.getElementById('terms').checked;
+
+  ['f-email','f-pw','f-pw2','f-terms'].forEach(clearErr);
+
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){setErr('f-email','올바른 이메일을 입력해주세요');ok=false}
+  if(!pw||pw.length<6){setErr('f-pw','비밀번호는 6자 이상이어야 해요');ok=false}
+  if(pw!==pw2){setErr('f-pw2','비밀번호가 일치하지 않아요');ok=false}
+  if(!terms){setErr('f-terms','이용약관에 동의해주세요');ok=false}
+  if(!ok)return;
+
+  document.getElementById('panel1').classList.remove('active');
+  document.getElementById('panel2').classList.add('active');
+  document.getElementById('dot1').classList.remove('active');
+  document.getElementById('dot1').classList.add('done');
+  document.getElementById('line1').classList.add('done');
+  document.getElementById('dot2').classList.add('active');
+  document.getElementById('stepLabel').textContent='STEP 2 · 프로필 설정';
+}
+
+function goStep1(){
+  document.getElementById('panel2').classList.remove('active');
+  document.getElementById('panel1').classList.add('active');
+  document.getElementById('dot1').classList.add('active');
+  document.getElementById('dot1').classList.remove('done');
+  document.getElementById('line1').classList.remove('done');
+  document.getElementById('dot2').classList.remove('active');
+  document.getElementById('stepLabel').textContent='STEP 1 · 계정 정보';
+}
+
+async function doSignup(){
+  let ok=true;
+  const name=document.getElementById('s-name').value.trim();
+  const handle=document.getElementById('s-handle').value.trim();
+  ['f-name','f-handle'].forEach(clearErr);
+  if(!name){setErr('f-name','이름을 입력해주세요');ok=false}
+  if(!handle||handle.length<2){setErr('f-handle','닉네임은 2자 이상이어야 해요');ok=false}
+  if(!ok)return;
+
+  const btn=document.getElementById('signupBtn');
+  btn.classList.add('loading');btn.disabled=true;
+
+  const email=document.getElementById('s-email').value.trim();
+  const pw=document.getElementById('s-pw').value;
+  const bio=document.getElementById('s-bio').value.trim();
+
+  // Supabase 회원가입
+  const{data,error}=await sb.auth.signUp({email,password:pw});
+  if(error){
+    btn.classList.remove('loading');btn.disabled=false;
+    setErr('f-name',error.message);
+    return;
+  }
+
+  // profiles 테이블에 저장
+  await sb.from('profiles').insert({
+    id:data.user.id,
+    name,
+    handle,
+    avatar:selectedAv,
+    bio
+  });
+
+  location.href='index.html';
+}
+</script>
+</body>
+</html>

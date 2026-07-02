@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lOOk! — 홈</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#FFB8C8;--pink-d:#CC3366;
+  --mint:#B8EFE4;--mint-d:#1A8070;
+  --yellow:#FFF0B0;--yellow-d:#C89000;
+  --lav:#C8C8FF;--lav-d:#5050CC;
+  --cream:#FFFEFC;--bg:#FFF9F5;
+  --white:#FFFFFF;--dark:#3D3035;--mid:#9A8088;--light:#F5F0F3;
+  --font:'Noto Sans KR',-apple-system,sans-serif;
+  --mono:'DM Mono','Courier New',monospace;
+  --dis:'Nunito',var(--font);
+  --shadow:0 3px 20px rgba(180,130,200,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);color:var(--dark);min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  background-color:var(--bg);
+  background-image:
+    repeating-linear-gradient(45deg,rgba(255,184,200,.2) 0 1px,transparent 1px 16px),
+    repeating-linear-gradient(-45deg,rgba(184,239,228,.2) 0 1px,transparent 1px 16px),
+    radial-gradient(circle,rgba(200,200,255,.18) 3px,transparent 3px);
+  background-size:22px 22px,22px 22px,28px 28px;
+  background-position:0 0,0 0,14px 14px;
+}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:var(--font)}
+
+/* ── RAINBOW STRIP ── */
+.rainbow-strip{height:5px;background:linear-gradient(to right,var(--pink) 25%,var(--yellow) 25% 50%,var(--lav) 50% 75%,var(--mint) 75%);position:sticky;top:0;z-index:200}
+
+/* ── HEADER ── */
+.app-header{
+  position:sticky;top:5px;z-index:199;
+  height:62px;background:var(--white);
+  border-bottom:2.5px solid var(--pink);
+  display:flex;align-items:center;gap:20px;padding:0 28px;
+}
+.logo{display:flex;align-items:center;gap:3px;flex-shrink:0}
+.lp{height:32px;min-width:30px;padding:0 7px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--dis);font-size:18px;font-weight:900;color:var(--dark)}
+.lp-l{background:var(--pink);border-radius:10px 4px 4px 10px}
+.lp-o1{background:var(--mint)}
+.lp-o2{background:var(--yellow)}
+.lp-k{background:var(--lav);border-radius:4px 10px 10px 4px}
+.lp-x{background:var(--pink);min-width:22px;border-radius:8px;font-size:16px}
+.main-nav{flex:1;display:flex;justify-content:center;gap:6px}
+.nav-link{
+  padding:8px 22px;border-radius:22px;font-weight:700;font-size:14px;
+  color:var(--mid);transition:all .15s;font-family:var(--dis);
+  display:flex;align-items:center;gap:6px;
+}
+.nav-link:hover{background:var(--light);color:var(--dark)}
+.nav-link.active{background:var(--pink);color:var(--dark)}
+.nav-link.shop-link{background:linear-gradient(135deg,var(--pink-d),var(--lav-d));color:var(--white)}
+.nav-link.shop-link:hover{opacity:.9}
+.hdr-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.hdr-av{width:36px;height:36px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;font-size:18px;border:none}
+
+/* ── PAGE BODY ── */
+.page-body{
+  max-width:1280px;margin:0 auto;padding:24px 24px 40px;
+  display:grid;grid-template-columns:220px 1fr 260px;gap:22px;
+}
+
+/* ── LEFT SIDEBAR ── */
+.left-sidebar{display:flex;flex-direction:column;gap:16px}
+.sidebar-card{
+  background:var(--white);border-radius:18px;padding:18px;
+  box-shadow:var(--shadow);border:2px solid var(--pink);
+  position:relative;overflow:hidden;
+}
+.sidebar-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(255,184,200,.15) 4px,transparent 4px);
+  background-size:18px 18px;
+}
+.sidebar-ttl{font-size:13px;font-weight:900;color:var(--dark);margin-bottom:12px;font-family:var(--dis);position:relative}
+.friend-list{display:flex;flex-direction:column;gap:10px;position:relative}
+.friend-item{display:flex;align-items:center;gap:9px}
+.f-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;border:2px solid var(--pink)}
+.f-av.fa-p{background:var(--pink)}
+.f-av.fa-l{background:var(--lav)}
+.f-av.fa-m{background:var(--mint)}
+.f-av.fa-y{background:var(--yellow)}
+.f-info{flex:1;min-width:0}
+.f-name{font-size:12px;font-weight:700;color:var(--dark)}
+.f-handle{font-size:10px;color:var(--mid)}
+.f-chip{font-size:10px;font-weight:700;color:var(--pink-d);background:var(--pink);border:none;border-radius:12px;padding:3px 10px;flex-shrink:0}
+.f-chip.ing{background:var(--light);color:var(--mid)}
+.tag-list{display:flex;flex-wrap:wrap;gap:6px;position:relative}
+.tag-pill{font-size:11px;font-weight:700;background:var(--light);color:var(--dark);border:1.5px solid var(--pink);border-radius:16px;padding:5px 12px}
+
+/* ── FEED ── */
+.feed-col{display:flex;flex-direction:column;gap:0}
+.feed-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* POST CARD */
+.post-card{
+  border-radius:20px;overflow:hidden;box-shadow:var(--shadow);
+  position:relative;transition:transform .2s;
+}
+.post-card:hover{transform:translateY(-2px)}
+.post-card::after{content:'✦';position:absolute;right:13px;top:11px;z-index:1;font-size:20px;color:rgba(61,48,53,.18);pointer-events:none}
+.zone-pink{background:linear-gradient(125deg,#FFD8EC 0%,#FFB8C8 45%,#D8B4FF 100%)}
+.zone-lav{background:linear-gradient(125deg,#DDD8FF 0%,#C4C4FF 45%,#B4DCFF 100%)}
+.zone-yellow{background:linear-gradient(125deg,#FFFBC4 0%,#FFE880 45%,#FFC070 100%)}
+.zone-mint{background:linear-gradient(125deg,#C4FFEF 0%,#9EEDD9 45%,#A8FFD0 100%)}
+.card-inner{position:relative;z-index:1}
+.card-head{padding:14px 15px 10px}
+.profile-row{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.av-wrap{position:relative;flex-shrink:0}
+.p-avatar{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.55);border:2.5px solid rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;font-size:18px}
+.inf-star{position:absolute;bottom:-2px;right:-2px;width:15px;height:15px;border-radius:50%;background:var(--yellow-d);border:2px solid var(--white);font-size:8px;display:flex;align-items:center;justify-content:center;color:var(--white)}
+.p-info{flex:1;min-width:0}
+.p-name{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--dark)}
+.p-sub{font-size:10px;color:rgba(61,48,53,.55);margin-top:1px}
+.follow-chip{font-size:10px;font-weight:700;color:var(--dark);background:rgba(255,255,255,.6);border:1.5px solid rgba(255,255,255,.9);border-radius:16px;padding:4px 11px;cursor:pointer;flex-shrink:0;transition:all .15s}
+.follow-chip:hover{background:rgba(255,255,255,.8)}
+.follow-chip.following{opacity:.65}
+.card-comment{display:flex;gap:7px;align-items:flex-start;background:rgba(255,255,255,.5);border-radius:12px;padding:8px 11px;margin-bottom:8px}
+.sticker{font-size:17px;flex-shrink:0;line-height:1.3}
+.comment-txt{font-size:12px;line-height:1.5;color:var(--dark);font-weight:500}
+.badge-row{display:flex;gap:5px;flex-wrap:wrap;padding-bottom:2px}
+.badge{font-size:9px;font-weight:700;padding:3px 9px;border-radius:16px;background:rgba(255,255,255,.6);color:var(--dark);border:1px solid rgba(255,255,255,.8)}
+
+/* RECEIPT */
+.receipt-wrap{margin:6px 12px 0;background:var(--cream);border-radius:10px 10px 0 0;border:2px solid rgba(255,255,255,.9);overflow:hidden}
+.receipt-paper{padding:12px 14px 9px;background:var(--cream)}
+.r-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px}
+.r-logo{font-size:14px;font-weight:900;color:var(--dark);font-family:var(--dis)}
+.r-logo .oo{color:var(--pink-d)}
+.r-tag{font-family:var(--mono);font-size:7px;letter-spacing:2.5px;color:#C0A090;text-transform:uppercase}
+.r-divider{border:none;border-top:1.5px dashed rgba(255,184,200,.9);margin:6px 0}
+.r-brand{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:#B8A098;text-transform:uppercase}
+.r-name{font-size:14px;font-weight:800;color:var(--dark);margin:2px 0;font-family:var(--dis)}
+.r-detail{font-family:var(--mono);font-size:9px;color:#B8A098}
+.r-price-row{display:flex;align-items:baseline;justify-content:space-between;margin-top:3px}
+.r-price{font-family:var(--mono);font-size:18px;font-weight:500;color:var(--dark)}
+.r-label{font-family:var(--mono);font-size:8px;color:#C0A090;letter-spacing:1px}
+.r-footer{text-align:center;margin-top:6px}
+.r-date{font-family:var(--mono);font-size:8px;color:#C0A090}
+.r-thanks{font-family:var(--dis);font-size:11px;font-weight:900;color:var(--pink-d);letter-spacing:.3px;margin-top:2px}
+.receipt-tear{height:14px;position:relative;background:var(--cream)}
+.receipt-tear::before{content:'';position:absolute;top:0;left:0;right:0;height:100%;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='14'%3E%3Cellipse cx='11' cy='0' rx='11' ry='9' fill='%23FFFEFC'/%3E%3C/svg%3E") repeat-x;background-size:22px 14px}
+
+.prod-imgs{display:flex;gap:7px;padding:8px 12px 4px}
+.prod-img{flex:1;aspect-ratio:1;border-radius:11px;border:2px solid rgba(255,255,255,.7);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;transition:transform .15s;background:rgba(255,255,255,.4)}
+.prod-img:hover{transform:scale(1.05)}
+
+.rxn-row{display:flex;align-items:center;padding:7px 13px 13px;border-top:1.5px solid rgba(255,255,255,.5);margin-top:3px}
+.rxn-btn{display:flex;align-items:center;gap:4px;background:none;border:none;cursor:pointer;font-size:12px;font-family:var(--font);color:rgba(61,48,53,.7);font-weight:600;padding:5px 12px 5px 0;transition:color .15s}
+.rxn-btn .e{font-size:15px}
+.rxn-btn:hover{color:var(--pink-d)}
+.rxn-btn.liked{color:var(--pink-d)}
+.save-btn{margin-left:auto;background:rgba(255,255,255,.5);border:none;cursor:pointer;padding:5px 11px;border-radius:16px;font-size:12px;font-weight:700;color:rgba(61,48,53,.7);font-family:var(--font);transition:all .15s}
+.save-btn:hover{background:rgba(255,255,255,.75)}
+.save-btn.saved{background:var(--pink);color:var(--dark)}
+
+/* ── RIGHT SIDEBAR ── */
+.right-sidebar{display:flex;flex-direction:column;gap:16px}
+.pop-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1.5px dashed var(--pink);position:relative}
+.pop-item:last-child{border-bottom:none}
+.pop-thumb{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;position:relative;overflow:hidden}
+.pop-thumb::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.4) 3px,transparent 3px);background-size:12px 12px}
+.pp{background:var(--pink)} .pm{background:var(--mint)} .py{background:var(--yellow)} .pl{background:var(--lav)}
+.pop-info{flex:1;min-width:0}
+.pop-brand{font-size:9px;color:var(--mid);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.pop-name{font-size:12px;font-weight:700;color:var(--dark);font-family:var(--dis)}
+.pop-price{font-family:var(--mono);font-size:12px;color:var(--dark)}
+.sug-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1.5px dashed var(--pink);position:relative}
+.sug-item:last-child{border-bottom:none}
+.sug-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:2px solid var(--white)}
+.sug-name{font-size:12px;font-weight:700;color:var(--dark);font-family:var(--dis)}
+.sug-sub{font-size:10px;color:var(--mid)}
+.sug-btn{font-size:10px;font-weight:700;color:var(--white);background:var(--pink-d);border:none;border-radius:12px;padding:4px 12px;cursor:pointer;margin-left:auto;flex-shrink:0}
+.sug-btn:hover{opacity:.85}
+
+/* ── COMMENT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(61,48,53,.5);z-index:400;opacity:0;pointer-events:none;transition:opacity .25s;display:flex;align-items:center;justify-content:center}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);border-radius:24px;width:480px;max-height:70vh;overflow-y:auto;padding:28px;border:2.5px solid var(--pink);position:relative}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--light);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:var(--pink)}
+.modal-ttl{font-size:18px;font-weight:900;color:var(--dark);margin-bottom:18px;font-family:var(--dis)}
+.cmts-list{display:flex;flex-direction:column;gap:12px;margin-bottom:18px;max-height:36vh;overflow-y:auto}
+.cmt-item{display:flex;gap:10px;align-items:flex-start}
+.cmt-av{width:32px;height:32px;border-radius:50%;background:var(--lav);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.cmt-bubble{background:var(--bg);border-radius:4px 16px 16px 16px;padding:9px 13px;flex:1}
+.cmt-user{font-size:11px;font-weight:700;color:var(--pink-d);margin-bottom:2px}
+.cmt-text{font-size:13px;color:var(--dark);line-height:1.5}
+.cmt-row{display:flex;gap:10px;align-items:center}
+.cmt-input{flex:1;background:var(--bg);border:2px solid var(--pink);border-radius:22px;padding:11px 16px;font-size:14px;font-family:var(--font);color:var(--dark);outline:none}
+.cmt-input:focus{border-color:var(--pink-d)}
+.send-btn{width:44px;height:44px;border-radius:50%;background:var(--pink-d);border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--white)}
+.send-btn:hover{opacity:.85}
+</style>
+</head>
+<body>
+
+<div class="rainbow-strip"></div>
+<header class="app-header">
+  <a href="index.html" class="logo">
+    <span class="lp lp-l">l</span>
+    <span class="lp lp-o1">O</span>
+    <span class="lp lp-o2">O</span>
+    <span class="lp lp-k">k</span>
+    <span class="lp lp-x">!</span>
+  </a>
+  <nav class="main-nav">
+    <a href="index.html" class="nav-link active"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>홈</a>
+    <a href="explore.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>탐색</a>
+    <a href="shop.html" class="nav-link shop-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>쇼핑하기</a>
+    <a href="notifications.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>알림</a>
+    <a href="profile.html" class="nav-link"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>마이</a>
+  </nav>
+  <div class="hdr-right">
+    <button class="hdr-av" onclick="location.href='profile.html'">🦋</button>
+  </div>
+</header>
+
+<div class="page-body">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="left-sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-ttl">👀 팔로잉</div>
+      <div class="friend-list">
+        <div class="friend-item">
+          <div class="f-av fa-l">🐰</div>
+          <div class="f-info"><div class="f-name">민지</div><div class="f-handle">@minji_style</div></div>
+          <button class="f-chip ing">팔로잉</button>
+        </div>
+        <div class="friend-item">
+          <div class="f-av fa-y">✨</div>
+          <div class="f-info"><div class="f-name">지우 ★</div><div class="f-handle">@stylebyj</div></div>
+          <button class="f-chip ing">팔로잉</button>
+        </div>
+        <div class="friend-item">
+          <div class="f-av fa-m">🌸</div>
+          <div class="f-info"><div class="f-name">수아</div><div class="f-handle">@sua_daily</div></div>
+          <button class="f-chip" onclick="this.textContent='팔로잉';this.classList.add('ing')">팔로우</button>
+        </div>
+        <div class="friend-item">
+          <div class="f-av fa-p">🍓</div>
+          <div class="f-info"><div class="f-name">예린</div><div class="f-handle">@yerin_look</div></div>
+          <button class="f-chip" onclick="this.textContent='팔로잉';this.classList.add('ing')">팔로우</button>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-card">
+      <div class="sidebar-ttl">🔥 인기 태그</div>
+      <div class="tag-list">
+        <span class="tag-pill">#마뗑킴</span>
+        <span class="tag-pill">#봄코디</span>
+        <span class="tag-pill">#오늘뭐입지</span>
+        <span class="tag-pill">#득템</span>
+        <span class="tag-pill">#Y2K</span>
+        <span class="tag-pill">#가성비</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CENTER FEED -->
+  <main>
+    <div class="feed-grid" id="feedGrid"></div>
+  </main>
+
+  <!-- RIGHT SIDEBAR -->
+  <aside class="right-sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-ttl">🛍️ 인기 상품</div>
+      <div class="pop-item">
+        <div class="pop-thumb pp">👕</div>
+        <div class="pop-info">
+          <div class="pop-brand">마뗑킴</div>
+          <div class="pop-name">크롭 니트 가디건</div>
+          <div class="pop-price">52,000원</div>
+        </div>
+      </div>
+      <div class="pop-item">
+        <div class="pop-thumb pl">👠</div>
+        <div class="pop-info">
+          <div class="pop-brand">찰스앤키스</div>
+          <div class="pop-name">리본 플랫슈즈</div>
+          <div class="pop-price">89,000원</div>
+        </div>
+      </div>
+      <div class="pop-item">
+        <div class="pop-thumb py">👜</div>
+        <div class="pop-info">
+          <div class="pop-brand">마뗑킴</div>
+          <div class="pop-name">미니 숄더백</div>
+          <div class="pop-price">95,000원</div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-card">
+      <div class="sidebar-ttl">✦ 팔로우 추천</div>
+      <div class="sug-item">
+        <div class="sug-av" style="background:var(--yellow)">🧸</div>
+        <div><div class="sug-name">지수</div><div class="sug-sub">@jisu_outfit · 팔로워 2.4K</div></div>
+        <button class="sug-btn" onclick="this.textContent='팔로잉';this.style.background='var(--mid)'">팔로우</button>
+      </div>
+      <div class="sug-item">
+        <div class="sug-av" style="background:var(--mint)">🐱</div>
+        <div><div class="sug-name">하린</div><div class="sug-sub">@harin_daily · 팔로워 890</div></div>
+        <button class="sug-btn" onclick="this.textContent='팔로잉';this.style.background='var(--mid)'">팔로우</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- COMMENT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="e => { if(e.target===this) closeModal() }">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-ttl" id="modalTitle">댓글</div>
+    <div class="cmts-list" id="cmtsList"></div>
+    <div class="cmt-row">
+      <input class="cmt-input" id="cmtInput" placeholder="댓글 달기...">
+      <button class="send-btn" onclick="sendComment()">↑</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb=supabase.createClient(
+  'https://pgfysjkftzdkebvnmcwr.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBnZnlzamtmdHpka2Vidm5tY3dyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ1OTIsImV4cCI6MjA5ODU1MDU5Mn0.5vy6TSPcQzOBh9fQDdYv4fvRel89zH-ynDCNFJu05YI'
+);
+
+let currentUser=null;
+
+// 세션 확인 + 아바타 설정
+sb.auth.getSession().then(async({data:{session}})=>{
+  const av=document.querySelector('.hdr-av');
+  if(session){
+    currentUser=session.user;
+    const{data:prof}=await sb.from('profiles').select('avatar').eq('id',session.user.id).single();
+    if(av&&prof)av.textContent=prof.avatar||'🦋';
+  }else if(localStorage.getItem('look_guest')){
+    const bar=document.createElement('div');
+    bar.innerHTML='<div style="background:#FFF0B0;border-bottom:2px solid #FFE880;padding:10px 28px;font-size:13px;display:flex;align-items:center;justify-content:space-between"><span>👀 게스트로 보는 중이에요 — <a href="login.html" style="color:#CC3366;font-weight:700">로그인</a>하면 구매·반응 기능을 쓸 수 있어요</span><a href="login.html" style="background:#CC3366;color:white;padding:6px 14px;border-radius:10px;font-size:12px;font-weight:700">로그인</a></div>';
+    document.querySelector('.app-header')?.after(bar.firstElementChild);
+  }else{
+    if(av){av.textContent='🔑';av.onclick=()=>location.href='login.html';av.title='로그인';}
+  }
+  render();
+});
+
+const KEY='look_posts';
+let drawerPostId=null;
+const ZONES=['zone-pink','zone-lav','zone-yellow','zone-mint'];
+
+/* ── SVG ICON SYSTEM ── */
+const I={
+  heartEmpty:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
+  heartFull:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
+  comment:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
+  saveEmpty:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>`,
+  saveFull:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>`,
+  follow:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>`,
+  following:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>`,
+};
+const CAT_SVG={
+  '상의':`<svg width="38" height="38" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10L6 18l8 5V46h28V23l8-5-10-8-7 3.5a3 3 0 01-2.6 0L16 10z"/><path d="M20 11.5Q28 17 36 11.5"/><line x1="12" y1="21" x2="16" y2="25"/><line x1="44" y1="21" x2="40" y2="25"/></svg>`,
+  '하의':`<svg width="38" height="38" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="10" width="32" height="6" rx="2"/><path d="M14 16L10 46h12l6-18 6 18h12L42 16"/><line x1="12" y1="20" x2="44" y2="20"/></svg>`,
+  '아우터':`<svg width="38" height="38" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8L6 16l7 5V48h30V21l7-5-12-8v4l-5 3a2 2 0 01-4 0l-5-3V8z"/><line x1="24" y1="14" x2="32" y2="14"/><line x1="28" y1="18" x2="28" y2="44"/></svg>`,
+  '신발':`<svg width="38" height="38" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 36c0-10 6-22 14-22l14 4 10 4v8H8z"/><rect x="6" y="36" width="44" height="8" rx="4"/><path d="M22 14l4-6"/><path d="M26 16l4 2" stroke-width="1.5"/></svg>`,
+  '가방':`<svg width="38" height="38" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="20" width="40" height="28" rx="4"/><path d="M20 20v-4a8 8 0 0116 0v4"/><line x1="8" y1="30" x2="48" y2="30"/><rect x="23" y="27" width="10" height="6" rx="2"/></svg>`,
+  '액세서리':`<svg width="38" height="38" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="28" cy="28" r="4"/><path d="M10 28a18 18 0 0036 0"/><path d="M12 20a20 20 0 0032 0"/><path d="M28 24v-14" stroke-width="2"/><circle cx="28" cy="10" r="2" fill="currentColor"/></svg>`,
+};
+
+const SEEDS=[
+  {id:'s1',userId:'minji',userName:'민지',av:'🐰',inf:false,me:false,following:true,
+   comment:'이거 못 참겠다... 가디건 색이 진짜 미쳤어',sticker:'🎀',
+   badges:['⚡ 방금','👯 친구도 삼'],
+   item:{brand:'마뗑킴',name:'크롭 니트 가디건',size:'FREE',color:'MINT GREEN',price:52000,cat:'상의',imgs:['👕','✨']},
+   rxn:{love:24,liked:false,saved:false,comments:[
+     {av:'🍓',user:'예린',txt:'나도 이거 봤는데ㅠ 너무 예뻐!!'},
+     {av:'🌸',user:'수아',txt:'돈 아낀다더니 ㅋㅋㅋ 역시 못 참는구나'}
+   ]},date:'2026.07.02',time:'오후 3:21'},
+  {id:'s2',userId:'stylebyj',userName:'지우',av:'✨',inf:true,me:false,following:true,
+   comment:'봄 신발 드디어 질렀어요~ 굽 낮아서 완전 편함 추천',sticker:'💅',
+   badges:['🔥 오늘 인기'],
+   item:{brand:'찰스앤키스',name:'리본 메리제인 플랫슈즈',size:'240',color:'BLACK',price:89000,cat:'신발',imgs:['👠','🎀']},
+   rxn:{love:312,liked:false,saved:false,comments:[
+     {av:'🐰',user:'민지',txt:'어디서 살 수 있어요??'},
+     {av:'🧸',user:'지수',txt:'나도 이거 사야지 진짜ㅠ'},
+   ]},date:'2026.07.02',time:'오후 1:05'},
+  {id:'s3',userId:'sua_daily',userName:'수아',av:'🌸',inf:false,me:false,following:false,
+   comment:'이번 달 진짜 마지막이야 맹세해ㅠㅠ 근데 넘 예쁘잖아',sticker:'🙈',
+   badges:['💸 가성비'],
+   item:{brand:'로맨틱 크라운',name:'플리츠 미디 스커트',size:'S',color:'DUSTY PINK',price:68000,cat:'하의',imgs:['👗','🌸']},
+   rxn:{love:47,liked:false,saved:false,comments:[
+     {av:'🍓',user:'예린',txt:'다음 달에도 이럴 거 알고 있지?? ㅋㅋ'},
+   ]},date:'2026.07.01',time:'오후 11:33'},
+  {id:'s4',userId:'yerin',userName:'예린',av:'🍓',inf:false,me:false,following:false,
+   comment:'여친룩으로 딱 좋을 듯... 남친이랑 커플로 살까',sticker:'🤩',
+   badges:['💸 가성비','⚡ 방금'],
+   item:{brand:'에이블리',name:'레이어드 골드 네크리스',size:'FREE',color:'GOLD',price:24000,cat:'액세서리',imgs:['📿','💛']},
+   rxn:{love:18,liked:false,saved:false,comments:[]},date:'2026.07.02',time:'오전 11:10'}
+];
+
+// localStorage 반응 상태 (좋아요/저장은 로컬 유지)
+function getRxn(id){return JSON.parse(localStorage.getItem('rxn_'+id)||'{"love":0,"liked":false,"saved":false,"comments":[]}')}
+function saveRxn(id,rxn){localStorage.setItem('rxn_'+id,JSON.stringify(rxn))}
+
+// Supabase row → 카드 객체 변환
+function mapRow(row){
+  const rxn=getRxn(row.id);
+  const d=new Date(row.created_at);
+  return{
+    id:row.id,userId:row.user_id,
+    userName:row.profiles?.name||'사용자',
+    av:row.profiles?.avatar||'🦋',
+    inf:false,me:row.user_id===currentUser?.id,following:false,
+    comment:row.comment||'',sticker:row.sticker||'🎀',badges:[],
+    item:{brand:row.item_brand,name:row.item_name,size:row.item_size,
+          color:row.item_color,price:row.item_price,cat:row.item_cat,imgs:['🛍️']},
+    rxn,
+    date:`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`,
+    time:`${d.getHours()<12?'오전':'오후'} ${d.getHours()%12||12}:${String(d.getMinutes()).padStart(2,'0')}`
+  };
+}
+
+let _allPosts=[...SEEDS]; // 시드 포함 캐시
+
+async function loadFromSupabase(){
+  const{data,error}=await sb.from('posts')
+    .select('*, profiles(name,avatar)')
+    .eq('is_private',false)
+    .order('created_at',{ascending:false});
+  if(error||!data)return;
+  _allPosts=[...data.map(mapRow),...SEEDS];
+}
+
+function getAll(){return _allPosts;}
+function saveUser(){}  // Supabase에서 관리 — no-op
+function fmt(n){return(n||0).toLocaleString('ko-KR')+'원'}
+
+function cardHTML(p,idx){
+  const zone=ZONES[idx%4];
+  const badges=p.badges.map(b=>`<span class="badge">${b}</span>`).join('');
+  const infStar=p.inf?'<span class="inf-star">★</span>':'';
+  let followBtn='';
+  if(!p.me){
+    followBtn=p.following
+      ?`<button class="follow-chip following" onclick="toggleFollow('${p.id}',this)">${I.following} 팔로잉</button>`
+      :`<button class="follow-chip" onclick="toggleFollow('${p.id}',this)">${I.follow} 팔로우</button>`;
+  }
+  const imgs=p.item.imgs.map(e=>`<div class="prod-img" onclick="location.href='shop.html'">${CAT_SVG[p.item.cat]||e}</div>`).join('');
+  return `<article class="post-card ${zone}">
+  <div class="card-inner">
+    <div class="card-head">
+      <div class="profile-row">
+        <div class="av-wrap"><div class="p-avatar">${p.av}</div>${infStar}</div>
+        <div class="p-info">
+          <div class="p-name">@${p.userName}이 또 질렀어요 👀</div>
+          <div class="p-sub">${p.date} · ${p.time}</div>
+        </div>${followBtn}
+      </div>
+      <div class="card-comment"><span class="sticker">${p.sticker}</span><span class="comment-txt">"${p.comment}"</span></div>
+      <div class="badge-row">${badges}</div>
+    </div>
+    <div class="receipt-wrap">
+      <div class="receipt-paper">
+        <div class="r-header"><span class="r-logo">l<span class="oo">OO</span>k!</span><span class="r-tag">✦ RECEIPT ✦</span></div>
+        <hr class="r-divider">
+        <div class="r-brand">${p.item.brand}</div>
+        <div class="r-name">${p.item.name}</div>
+        <div class="r-detail">SIZE: ${p.item.size} · COLOR: ${p.item.color}</div>
+        <hr class="r-divider">
+        <div class="r-price-row"><span class="r-label">TOTAL</span><span class="r-price">${fmt(p.item.price)}</span></div>
+        <hr class="r-divider">
+        <div class="r-footer"><div class="r-date">${p.date} ${p.time}</div><div class="r-thanks">THANK YOU 👀 ✦</div></div>
+      </div>
+      <div class="receipt-tear"></div>
+    </div>
+    <div class="prod-imgs">${imgs}</div>
+    <div class="rxn-row">
+      <button class="rxn-btn${p.rxn.liked?' liked':''}" onclick="toggleLike('${p.id}',this)">
+        <span class="e" id="hi-${p.id}">${p.rxn.liked?I.heartFull:I.heartEmpty}</span><span id="lv-${p.id}">${p.rxn.love}</span>
+      </button>
+      <button class="rxn-btn" onclick="openModal('${p.id}')">
+        <span class="e">${I.comment}</span><span id="cc-${p.id}">${p.rxn.comments.length}</span>
+      </button>
+      <button class="save-btn${p.rxn.saved?' saved':''}" onclick="toggleSave('${p.id}',this)">${p.rxn.saved?I.saveFull+' 저장됨':I.saveEmpty+' 저장'}</button>
+    </div>
+  </div>
+</article>`;
+}
+
+async function render(){
+  const grid=document.getElementById('feedGrid');
+  grid.innerHTML='<div style="grid-column:span 2;text-align:center;padding:60px;color:var(--mid);font-size:14px">피드 불러오는 중...</div>';
+  await loadFromSupabase();
+  const all=getAll();
+  grid.innerHTML=all.map((p,i)=>cardHTML(p,i)).join('');
+}
+
+function toggleLike(id,btn){
+  const p=getAll().find(x=>x.id===id);if(!p)return;
+  p.rxn.liked=!p.rxn.liked;p.rxn.love+=p.rxn.liked?1:-1;saveRxn(id,p.rxn);
+  btn.classList.toggle('liked',p.rxn.liked);
+  document.getElementById('hi-'+id).innerHTML=p.rxn.liked?I.heartFull:I.heartEmpty;
+  document.getElementById('lv-'+id).textContent=p.rxn.love;
+}
+function toggleSave(id,btn){
+  const p=getAll().find(x=>x.id===id);if(!p)return;
+  p.rxn.saved=!p.rxn.saved;saveRxn(id,p.rxn);
+  btn.classList.toggle('saved',p.rxn.saved);
+  btn.innerHTML=p.rxn.saved?I.saveFull+' 저장됨':I.saveEmpty+' 저장';
+}
+function toggleFollow(id,btn){
+  const p=getAll().find(x=>x.id===id);if(!p)return;
+  p.following=!p.following;
+  btn.innerHTML=p.following?(I.following+' 팔로잉'):(I.follow+' 팔로우');
+  btn.classList.toggle('following',p.following);
+}
+function openModal(id){
+  drawerPostId=id;
+  const p=getAll().find(x=>x.id===id);if(!p)return;
+  document.getElementById('modalTitle').textContent=`댓글 ${p.rxn.comments.length}개`;
+  const list=document.getElementById('cmtsList');
+  list.innerHTML=p.rxn.comments.length
+    ?p.rxn.comments.map(c=>`<div class="cmt-item"><div class="cmt-av">${c.av}</div><div class="cmt-bubble"><div class="cmt-user">@${c.user}</div><div class="cmt-text">${c.txt}</div></div></div>`).join('')
+    :'<div style="text-align:center;color:var(--mid);padding:24px;font-size:13px">첫 댓글을 달아보세요 💬</div>';
+  document.getElementById('modalOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('cmtInput').focus(),200);
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');drawerPostId=null}
+document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal()});
+function sendComment(){
+  const inp=document.getElementById('cmtInput');
+  const txt=inp.value.trim();if(!txt||!drawerPostId)return;
+  const all=getAll();const p=all.find(x=>x.id===drawerPostId);if(!p)return;
+  p.rxn.comments.push({av:'🦋',user:'나',txt});
+  saveUser(all);inp.value='';
+  document.getElementById('cc-'+drawerPostId).textContent=p.rxn.comments.length;
+  openModal(drawerPostId);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+// render()는 세션 확인 후 자동 호출됨
+</script>
+</body>
+</html>
